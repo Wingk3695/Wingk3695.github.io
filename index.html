@@ -96,7 +96,7 @@
         <h1 id="题目1-射击游戏"><a href="#题目1-射击游戏" class="headerlink" title="题目1 射击游戏"></a>题目1 射击游戏</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p><img src="/images/shooting_game.png" alt="图片"><br>假设总共有两类物体：飞船怪兽和大眼虫，id分别用0和1来表示，射击时看作质点；</p>
 <p>射击目标只有飞船怪兽，射下所有飞船怪兽则游戏成功，射中任意一只大眼虫则游戏失败；</p>
 <p>每个物体o<del>i</del>的竖直高度和景深固定而不尽相同，分别用y<del>i</del>和z<del>i</del>来表示；</p>
-<p>但为了简单起见，假设任意物体o<del>i</del>都只在其景深所在竖直平面的水平方向上运动，且运动范围受限，即x<del>i</del> &amp;isin; [s<del>i</del>, f<del>i</del>]，<strong>运动速度随机</strong>；</p>
+<p>但为了简单起见，假设任意物体o<del>i</del>都只在其景深所在竖直平面的水平方向上运动，且运动范围受限，即x<del>i</del> ∈ [s<del>i</del>, f<del>i</del>]，<strong>运动速度随机</strong>；</p>
 <p>你有一把Gru的电磁炮枪，这把枪一次射击可以<strong>瞬间击穿沿路的所有物体，且轨迹不会被改变</strong>；</p>
 <p>但是你只能沿着某条垂直于竖直面的直线射击，即子弹(也看作质点)的x<del>i</del>, y<del>i</del>不会改变，只有景深z<del>i</del>在增大；</p>
 <p>假设<strong>时间无限制</strong>，Gru为了证明自己是神枪手，想尽量把握时机，以用最少的射击次数赢下比赛；</p>
@@ -110,9 +110,9 @@
 <p>同理，某个时刻可能会出现物体4,5两只飞船怪兽均运动到x&#x3D;4，则此刻朝着x&#x3D;4, y&#x3D;5射击，也可一枪二兽；</p>
 <p>由于物体1,4处在不同的高度，一枪不可能同时击中所有飞船怪兽，故至少需要2枪，因此k&#x3D;2；</p>
 <h3 id="提示3："><a href="#提示3：" class="headerlink" title="提示3："></a>提示3：</h3><p>数据范围：</p>
-<p>1 &amp;le; N &amp;le; 1e5</p>
-<p>-2^31^ &amp;le; s<del>i</del>, f<del>i</del>, y<del>i</del>, z<del>i</del> &amp;le; 2^31^ - 1<br>&amp;ne; z<del>j</del> </p>
-<h3 id="提示4："><a href="#提示4：" class="headerlink" title="提示4："></a>提示4：</h3><p>进阶：假设其他条件不变，现在每个物体能在同一个竖直面上沿着水平或者竖直方向，有限范围内移动，即x<del>i</del> &amp;isin; [s<del>i</del>, f<del>i</del>], y<del>i</del> &amp;isin; [p<del>i</del>, q<del>i</del>]，则至少需要多少次射击才能赢下游戏呢，感兴趣的同学可以思考一下~</p>
+<p>1 ≤ N ≤ 1e5</p>
+<p>-2^31^ ≤ s<del>i</del>, f<del>i</del>, y<del>i</del>, z<del>i</del> ≤ 2^31^ - 1<br>≠ z<del>j</del> </p>
+<h3 id="提示4："><a href="#提示4：" class="headerlink" title="提示4："></a>提示4：</h3><p>进阶：假设其他条件不变，现在每个物体能在同一个竖直面上沿着水平或者竖直方向，有限范围内移动，即x<del>i</del> ∈ [s<del>i</del>, f<del>i</del>], y<del>i</del> ∈ [p<del>i</del>, q<del>i</del>]，则至少需要多少次射击才能赢下游戏呢，感兴趣的同学可以思考一下~</p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><h3 id="干扰项"><a href="#干扰项" class="headerlink" title="干扰项"></a>干扰项</h3><p>首先因为枪可以瞬间击穿一个点上的所有靶子，所以$z$坐标没有意义。</p>
 <p>其次因为移动速度随机，时间无限，所以障碍物没有意义。</p>
 <p>同样的原因，这个问题就转化为寻找这些区间的最大覆盖。</p>
@@ -137,33 +137,33 @@
 <p>第三秒，蚂蚁2和4在0.5相遇。</p>
 <h2 id="数据范围："><a href="#数据范围：" class="headerlink" title="数据范围："></a>数据范围：</h2><ul>
 <li><p>对于30%的数据点，有：</p>
-<p>  T&amp;le; 10</p>
-<p>  2 &amp;le; n &amp;le; 1000</p>
-<p>  -1000 &amp;le; x &amp;le; 1000  </p>
-<p>  0 &amp;le; d &amp;le; 1</p>
-<p>  1 &amp;le; m &amp;le; 2000</p>
+<p>  T≤ 10</p>
+<p>  2 ≤ n ≤ 1000</p>
+<p>  -1000 ≤ x ≤ 1000  </p>
+<p>  0 ≤ d ≤ 1</p>
+<p>  1 ≤ m ≤ 2000</p>
 </li>
 <li><p>对于60%的数据点，有：</p>
-<p>  T&amp;le; 10</p>
-<p>  2 &amp;le; n &amp;le; 1000</p>
-<p>  -105 &amp;le; x &amp;le; 105  </p>
-<p>  0 &amp;le; d &amp;le; 1</p>
-<pre><code>1 &amp;le; m &amp;le; 200000
+<p>  T≤ 10</p>
+<p>  2 ≤ n ≤ 1000</p>
+<p>  -105 ≤ x ≤ 105  </p>
+<p>  0 ≤ d ≤ 1</p>
+<pre><code>1 ≤ m ≤ 200000
 </code></pre>
 </li>
 <li><p>对于100%的数据点，有：</p>
-<p>  T&amp;le; 10</p>
-<p>  2 &amp;le; n &amp;le; 1000</p>
-<p>  -109 &amp;le; x &amp;le; 109  </p>
-<p>  0 &amp;le; d &amp;le; 1</p>
-<p>  1 &amp;le; m &amp;le; 109</p>
+<p>  T≤ 10</p>
+<p>  2 ≤ n ≤ 1000</p>
+<p>  -109 ≤ x ≤ 109  </p>
+<p>  0 ≤ d ≤ 1</p>
+<p>  1 ≤ m ≤ 109</p>
 </li>
 <li><p>对于120%的数据点，有：</p>
-<p>  T&amp;le; 10</p>
-<p>  2 &amp;le; n的总和 &amp;le; 2*105</p>
-<p>  -109 &amp;le; x &amp;le; 109  </p>
-<p>  0 &amp;le; d &amp;le; 1</p>
-<p>  1 &amp;le; m &amp;le; 109</p>
+<p>  T≤ 10</p>
+<p>  2 ≤ n的总和 ≤ 2*105</p>
+<p>  -109 ≤ x ≤ 109  </p>
+<p>  0 ≤ d ≤ 1</p>
+<p>  1 ≤ m ≤ 109</p>
 </li>
 </ul>
 <h2 id="提示-1"><a href="#提示-1" class="headerlink" title="提示"></a>提示</h2><p>120%的数据：two pointers 双指针（又名尺取法）</p>
