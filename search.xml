@@ -1,66 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>OJ2</title>
-    <url>/2023/04/01/OJ2/</url>
-    <content><![CDATA[<p>第二次作业。略有瑕疵。<br />
-updated 2023/4/14 补充了第二题的解法。</p>
-<span id="more"></span>
-<h1 id="多选问题"><a class="markdownIt-Anchor" href="#多选问题"></a> 多选问题</h1>
-<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述：</h2>
-<p>给定一个大小为n的整数数组A={a<sub>1</sub>,a<sub>2</sub>,…,a<sub>n</sub>}，和一个由m个不同的正整数组成的升序数组K={k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>}，请设计算法依次返回数组A中第k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>小的数</p>
-<h2 id="提示1"><a class="markdownIt-Anchor" href="#提示1"></a> 提示1：</h2>
-<p>输入格式：</p>
-<p>第一行依次为数组A、K的大小n、m，二者以一个空格间隔，末尾无空格</p>
-<p>第二行为数组A，相邻元素之间以一个空格间隔，末尾无空格</p>
-<p>第三行为数组K，相邻元素之间以一个空格间隔，末尾无空格</p>
-<p>输出格式：</p>
-<p>一行，依次为数组A中第k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>小的数，相邻元素之间以一个空格间隔，末尾无空格</p>
-<h2 id="提示2"><a class="markdownIt-Anchor" href="#提示2"></a> 提示2：</h2>
-<h3 id="输入样例1"><a class="markdownIt-Anchor" href="#输入样例1"></a> 输入样例1：</h3>
-<figure class="highlight basic"><table><tr><td class="code"><pre><span class="line"><span class="symbol">5 </span><span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">1 </span><span class="number">3</span> <span class="number">2</span> <span class="number">5</span> <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">2 </span><span class="number">3</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<h3 id="输出样例1"><a class="markdownIt-Anchor" href="#输出样例1"></a> 输出样例1：</h3>
-<figure class="highlight basic"><table><tr><td class="code"><pre><span class="line"><span class="symbol">2 </span><span class="number">3</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
-<h2 id="提示3"><a class="markdownIt-Anchor" href="#提示3"></a> 提示3：</h2>
-<p>要求：算法的时间复杂度应低于$ O(nm) $，且选择算法不能直接调用任何库函数</p>
-<h2 id="提示4"><a class="markdownIt-Anchor" href="#提示4"></a> 提示4：</h2>
-<p>1 &lt; m &lt; n &lt; 10<sup>7</sup></p>
-<p>数组A中任意元素a<sub>i</sub>满足：-2<sup>31</sup> &lt;= a<sub>i</sub> &lt;= 2<sup>31</sup>-1</p>
-<p>数组K中任意元素k<sub>j</sub>满足：1 &lt;= k<sub>j</sub> &lt;= n</p>
-<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
-<p>选择算法，但是听说把快排基准值改一下就能过，于是先过了再说，赶时间。</p>
-<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int partition(vector&lt;int&gt;&amp; arr, int left, int right) &#123;</span><br><span class="line">    int mid = left + (right - left) / 2; // 使用中间值作为基准元素</span><br><span class="line">    int pivot = arr[mid];</span><br><span class="line">    int i = left - 1;</span><br><span class="line">    int j = right + 1;</span><br><span class="line"></span><br><span class="line">    while (true) &#123;</span><br><span class="line">        do &#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125; while (arr[i] &lt; pivot);</span><br><span class="line"></span><br><span class="line">        do &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125; while (arr[j] &gt; pivot);</span><br><span class="line"></span><br><span class="line">        if (i &gt;= j) &#123;</span><br><span class="line">            return j;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        swap(arr[i], arr[j]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void quicksort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;</span><br><span class="line">    if (left &lt; right) &#123;</span><br><span class="line">        int p = partition(arr, left, right);</span><br><span class="line">        quicksort(arr, left, p);</span><br><span class="line">        quicksort(arr, p + 1, right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int n, m;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    </span><br><span class="line">    vector&lt;int&gt; arr(n),k(m);</span><br><span class="line">    for (int i = 0; i &lt; arr.size(); i++)cin &gt;&gt; arr[i];</span><br><span class="line">    for (int i = 0; i &lt; k.size(); i++)cin &gt;&gt; k[i];</span><br><span class="line">    quicksort(arr, 0, arr.size() - 1);</span><br><span class="line">    for (auto&amp; i : k)cout &lt;&lt; arr[i - 1] &lt;&lt; &quot; &quot;;</span><br><span class="line">    cout &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="可能是原题"><a class="markdownIt-Anchor" href="#可能是原题"></a> 可能是原题</h1>
-<p>时间限制：1s， 空间限制：128MB<br />
-<strong>题目带格式了，复制粘贴很麻烦。题目的格式也没安排好，看着也有点费劲。</strong><br />
-<a href="https://triccsrs-organization.gitbook.io/xjwoj2023/oj2/t1-ke-neng-shi-yuan-ti">原题链接</a></p>
-<h2 id="分析-2"><a class="markdownIt-Anchor" href="#分析-2"></a> 分析</h2>
-<p>统计逆序对</p>
-<p>统计逆序对嘛，mergesort就行了，问题是op=1的时候，需要对逆序对中出现过的每一个元素进行计数，依次计算会导致超时。</p>
-<p><em>如果要避免遍历整个数组来获取每个元素在逆序对中出现的次数，可以使用离散化和树状数组的方法。</em></p>
-<p><em>首先对原始数组进行离散化，将每个元素映射到一个连续的区间上。然后使用树状数组来统计每个元素在离散化后的数组中右侧比它小的元素的个数，这个数量即为该元素在逆序对中出现的次数。</em></p>
-<p><s>这是GPT给我说的，遗憾这会我还没学过，先搁置两周。</s></p>
-<p>使用树状数组，可以直接获得某个元素前面/后面比它大/小的元素数目。之后题目要求这个数字每次出现都要增加计数，所以还要求出另一边加到计数上面。</p>
-<p>对于一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1-n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>的排列，当数字<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span>在位置<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>上面时，已知它后面有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>个比它小的数字，那么它前面应该有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>i</mi><mo stretchy="false">)</mo><mo>−</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>j</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><mi>j</mi><mo>+</mo><mi>k</mi><mo>−</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">(n-i)-(n-j-k)=j+k-i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span>个比它大的数字。</p>
-<p>根据这个关系，在倒序树状数组处理一遍得到cnt[]后，再根据这个式子增加一遍cnt[]就得到了答案。</p>
-<p>另外，要求输出1~n这些数字的出现次数，所以用结构体把cnt和数字绑在一起，排序之后输出。</p>
-<p>最后，因为只输入了0~n-1，也省了离散化的步骤。有空专门写一篇总结树状数组和离散化吧。</p>
-<h2 id="120代码"><a class="markdownIt-Anchor" href="#120代码"></a> 120%代码</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">#define N 200005</span><br><span class="line">typedef long long ll;</span><br><span class="line"></span><br><span class="line">struct node</span><br><span class="line">&#123;</span><br><span class="line">    ll cnt=0;</span><br><span class="line">    ll num;</span><br><span class="line">&#125; a[N];</span><br><span class="line"></span><br><span class="line">bool op;</span><br><span class="line"></span><br><span class="line">ll tree[N];</span><br><span class="line">ll n;</span><br><span class="line">ll sum=0;</span><br><span class="line">void add(int x,int y)</span><br><span class="line">&#123;</span><br><span class="line">    for(;x&lt;=n;x+= x &amp; -x)tree[x]+=y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ll ask(int x)</span><br><span class="line">&#123;</span><br><span class="line">    int ans=0;</span><br><span class="line">    for( ; x ; x -= x &amp; -x)ans+=tree[x];</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int T;</span><br><span class="line">    cin&gt;&gt;T;</span><br><span class="line">    while(T--)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;op;</span><br><span class="line">        for(int i=1;i&lt;=n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            cin&gt;&gt;a[i].num;</span><br><span class="line">            a[i].num++;//输入0~n-1</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i=n;i&gt;=1;i--)</span><br><span class="line">        &#123;</span><br><span class="line">            a[i].cnt=ask(a[i].num-1);</span><br><span class="line">            sum+=a[i].cnt;</span><br><span class="line">            add(a[i].num,1);</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i=1;i&lt;=n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            a[i].cnt+=a[i].cnt+i-a[i].num;</span><br><span class="line">        &#125;</span><br><span class="line">        sort(a+1,a+n+1,[](node a,node b)&#123;return a.num&lt;b.num;&#125;);</span><br><span class="line">        if(op==0)</span><br><span class="line">            cout&lt;&lt;sum&lt;&lt;endl;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            for(int i=1;i&lt;=n;i++)cout&lt;&lt;a[i].cnt&lt;&lt;&#x27; &#x27;;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        memset(tree,0,sizeof(tree));</span><br><span class="line">        sum=0;//多组数据，重置计数</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>作业</category>
-      </categories>
-      <tags>
-        <tag>排序</tag>
-        <tag>选择</tag>
-        <tag>逆序对</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2023/03/14/Hello-World-0/</url>
-    <content><![CDATA[<h1 id="hello-world"><a class="markdownIt-Anchor" href="#hello-world"></a> Hello World</h1>
+    <content><![CDATA[<h1>Hello World</h1>
 <p>My first blog!!!</p>
 ]]></content>
   </entry>
@@ -68,18 +11,18 @@ updated 2023/4/14 补充了第二题的解法。</p>
     <title>Hello World</title>
     <url>/2023/03/14/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2>
-<h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h3 id="Run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h3 id="Generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
   </entry>
@@ -88,9 +31,9 @@ updated 2023/4/14 补充了第二题的解法。</p>
     <url>/2023/03/14/OJ1/</url>
     <content><![CDATA[<p>第一次作业，应用了排序简化处理过程。</p>
 <span id="more"></span>
-<h1 id="题目1-射击游戏"><a class="markdownIt-Anchor" href="#题目1-射击游戏"></a> 题目1 射击游戏</h1>
-<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h2>
-<p><img src="/2023/03/14/OJ1/images/shooting_game.png" alt="图片" /></p>
+<h1>题目1 射击游戏</h1>
+<h2 id="说明">说明</h2>
+<p><img src="/2023/03/14/OJ1/images/shooting_game.png" alt="图片"></p>
 <p>假设总共有两类物体：飞船怪兽和大眼虫，id分别用0和1来表示，射击时看作质点；</p>
 <p>射击目标只有飞船怪兽，射下所有飞船怪兽则游戏成功，射中任意一只大眼虫则游戏失败；</p>
 <p>每个物体o<sub>i</sub>的竖直高度和景深固定而不尽相同，分别用y<sub>i</sub>和z<sub>i</sub>来表示；</p>
@@ -99,66 +42,66 @@ updated 2023/4/14 补充了第二题的解法。</p>
 <p>但是你只能沿着某条垂直于竖直面的直线射击，即子弹(也看作质点)的x<sub>i</sub>, y<sub>i</sub>不会改变，只有景深z<sub>i</sub>在增大；</p>
 <p>假设<strong>时间无限制</strong>，Gru为了证明自己是神枪手，想尽量把握时机，以用最少的射击次数赢下比赛；</p>
 <p>请问他至少要射击多少次才能为女儿赢下独角兽？</p>
-<h2 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h2>
-<h3 id="提示1"><a class="markdownIt-Anchor" href="#提示1"></a> 提示1：</h3>
-<h4 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式：</h4>
+<h2 id="提示">提示</h2>
+<h3 id="提示1：">提示1：</h3>
+<h4 id="输入格式：">输入格式：</h4>
 <p>第1行是物体总数N</p>
 <p>第2行到第N+1行，每行依次描述一个物体的身份id、运动范围[s<sub>i</sub>, f<sub>i</sub>]、高度y<sub>i</sub>、景深z<sub>i</sub>，每行分量之间以一个空格间隔，末尾无空格</p>
-<h4 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式：</h4>
+<h4 id="输出格式：">输出格式：</h4>
 <p>一行，即输出最小的射击次数k</p>
-<h3 id="提示2"><a class="markdownIt-Anchor" href="#提示2"></a> 提示2：</h3>
-<h4 id="输入样例1"><a class="markdownIt-Anchor" href="#输入样例1"></a> 输入样例1：</h4>
-<figure class="highlight basic"><table><tr><td class="code"><pre><span class="line"><span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">0 </span><span class="number">1</span> <span class="number">3</span> <span class="number">3</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">1 </span><span class="number">3</span> <span class="number">5</span> <span class="number">3</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">0 </span><span class="number">2</span> <span class="number">4</span> <span class="number">3</span> <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">0 </span><span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">0 </span><span class="number">4</span> <span class="number">5</span> <span class="number">5</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<h4 id="输出样例1"><a class="markdownIt-Anchor" href="#输出样例1"></a> 输出样例1：</h4>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
-<h4 id="样例1解释"><a class="markdownIt-Anchor" href="#样例1解释"></a> 样例1解释：</h4>
+<h3 id="提示2：">提示2：</h3>
+<h4 id="输入样例1：">输入样例1：</h4>
+<figure class="highlight basic"><table><tr><td class="code"><pre><code class="hljs basic"><span class="hljs-number">5</span><br><br><span class="hljs-symbol">0 </span><span class="hljs-number">1</span> <span class="hljs-number">3</span> <span class="hljs-number">3</span> <span class="hljs-number">2</span><br><br><span class="hljs-symbol">1 </span><span class="hljs-number">3</span> <span class="hljs-number">5</span> <span class="hljs-number">3</span> <span class="hljs-number">3</span><br><br><span class="hljs-symbol">0 </span><span class="hljs-number">2</span> <span class="hljs-number">4</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span><br><br><span class="hljs-symbol">0 </span><span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span> <span class="hljs-number">2</span><br><br><span class="hljs-symbol">0 </span><span class="hljs-number">4</span> <span class="hljs-number">5</span> <span class="hljs-number">5</span> <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+<h4 id="输出样例1：">输出样例1：</h4>
+<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs">2<br></code></pre></td></tr></table></figure>
+<h4 id="样例1解释：">样例1解释：</h4>
 <p>在某个时刻，可能会出现物体1,3两只飞船怪兽均运动到x=2，则此刻朝着x=2, y=3射击，会避开物体2的大眼虫而一发射中物体1,3；</p>
 <p>同理，某个时刻可能会出现物体4,5两只飞船怪兽均运动到x=4，则此刻朝着x=4, y=5射击，也可一枪二兽；</p>
 <p>由于物体1,4处在不同的高度，一枪不可能同时击中所有飞船怪兽，故至少需要2枪，因此k=2；</p>
-<h3 id="提示3"><a class="markdownIt-Anchor" href="#提示3"></a> 提示3：</h3>
+<h3 id="提示3：">提示3：</h3>
 <p>数据范围：</p>
 <p>1 ≤ N ≤ 1e5</p>
-<p>-2<sup>31</sup> ≤ s<sub>i</sub>, f<sub>i</sub>, y<sub>i</sub>, z<sub>i</sub> ≤ 2<sup>31</sup> - 1<br />
+<p>-2<sup>31</sup> ≤ s<sub>i</sub>, f<sub>i</sub>, y<sub>i</sub>, z<sub>i</sub> ≤ 2<sup>31</sup> - 1<br>
 ≠ z<sub>j</sub></p>
-<h3 id="提示4"><a class="markdownIt-Anchor" href="#提示4"></a> 提示4：</h3>
+<h3 id="提示4：">提示4：</h3>
 <p>进阶：假设其他条件不变，现在每个物体能在同一个竖直面上沿着水平或者竖直方向，有限范围内移动，即x<sub>i</sub> ∈ [s<sub>i</sub>, f<sub>i</sub>], y<sub>i</sub> ∈ [p<sub>i</sub>, q<sub>i</sub>]，则至少需要多少次射击才能赢下游戏呢，感兴趣的同学可以思考一下~</p>
-<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
-<h3 id="干扰项"><a class="markdownIt-Anchor" href="#干扰项"></a> 干扰项</h3>
-<p>首先因为枪可以瞬间击穿一个点上的所有靶子，所以<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>坐标没有意义。</p>
+<h2 id="分析">分析</h2>
+<h3 id="干扰项">干扰项</h3>
+<p>首先因为枪可以瞬间击穿一个点上的所有靶子，所以$z$坐标没有意义。</p>
 <p>其次因为移动速度随机，时间无限，所以障碍物没有意义。</p>
 <p>同样的原因，这个问题就转化为寻找这些区间的最大覆盖。</p>
-<h3 id="思路"><a class="markdownIt-Anchor" href="#思路"></a> 思路</h3>
+<h3 id="思路">思路</h3>
 <p>先将给的区间按照$ y,s,f $从大到小的顺序排序，以方便后续操作。</p>
-<p>之后开始遍历每个区间。定义<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>u</mi><mi>r</mi><mi>r</mi><mi>e</mi><mi>n</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">current</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span></span></span></span>变量存储当前的最大覆盖。定义函数is_connected()判断两个区间是否有重合部分。当两个区间有重合时，它们的重合部分就是这两个区间的最大覆盖，我们的枪就可以瞄着这个重合部分打中所有的区间。而当两个区间没有重合，由于数据已经排好序，我们可以确定<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>u</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">cur</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span></span></span>区间一定没有办法覆盖剩下的区间，于是将下一个区间作为当前的最大覆盖，并且count++。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Interval next = intervals[i];</span><br><span class="line">        if (is_connected(cur, next))</span><br><span class="line">        &#123;</span><br><span class="line">            cur.s = max(cur.s, next.s);</span><br><span class="line">            cur.f = min(cur.f, next.f);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            ans++;</span><br><span class="line">            cur = next;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>之后开始遍历每个区间。定义$current$变量存储当前的最大覆盖。定义函数is_connected()判断两个区间是否有重合部分。当两个区间有重合时，它们的重合部分就是这两个区间的最大覆盖，我们的枪就可以瞄着这个重合部分打中所有的区间。而当两个区间没有重合，由于数据已经排好序，我们可以确定$cur$区间一定没有办法覆盖剩下的区间，于是将下一个区间作为当前的最大覆盖，并且count++。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs c++&#123;.line-numbers&#125;">Interval next = intervals[i];<br>        if (is_connected(cur, next))<br>        &#123;<br>            cur.s = max(cur.s, next.s);<br>            cur.f = min(cur.f, next.f);<br>        &#125;<br>        else<br>        &#123;<br>            ans++;<br>            cur = next;<br>        &#125;<br></code></pre></td></tr></table></figure>
 <p>最后，对于提示4，我们的代码应该更新成找一个二维平面上的最小覆盖，这里的排序方法、缩小方法重新修改一下就好了。当然我没写，不一定对。</p>
-<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">struct Interval &#123;</span><br><span class="line">    int y, s, f; // 区间的起始位置、结束位置和高度</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 按照s, f, y的顺序对区间进行排序</span><br><span class="line">bool compareIntervals(const Interval&amp; a, const Interval&amp; b) &#123;</span><br><span class="line">    if (a.y != b.y) &#123;</span><br><span class="line">        return a.y &lt; b.y;</span><br><span class="line">    &#125;</span><br><span class="line">    else if (a.s != b.s) &#123;</span><br><span class="line">        return a.s &lt; b.s;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        return a.f &lt; b.f;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool is_connected(Interval a, Interval b)</span><br><span class="line">&#123;</span><br><span class="line">    if (a.y != b.y)return 0;</span><br><span class="line">    if (a.f &lt; b.s)return 0;</span><br><span class="line">    if (a.s &gt; b.f)return 0;</span><br><span class="line">    else return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    vector&lt;Interval&gt; intervals;</span><br><span class="line">    for (int i = 1; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Interval x;</span><br><span class="line">        int id, si, fi, yi, zi;</span><br><span class="line">        cin &gt;&gt; id &gt;&gt; si &gt;&gt; fi &gt;&gt; yi &gt;&gt; zi;</span><br><span class="line">        if (id == 1)continue;</span><br><span class="line">        x.f = fi;</span><br><span class="line">        x.s = si;</span><br><span class="line">        x.y = yi;</span><br><span class="line">        intervals.push_back(x);</span><br><span class="line">    &#125;</span><br><span class="line">    sort(intervals.begin(), intervals.end(), compareIntervals);</span><br><span class="line">    Interval cur=intervals[0];</span><br><span class="line">    int ans = 1;</span><br><span class="line">    for (int i = 1; i &lt; intervals.size(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Interval next = intervals[i];</span><br><span class="line">        if (is_connected(cur, next))</span><br><span class="line">        &#123;</span><br><span class="line">            cur.s = max(cur.s, next.s);</span><br><span class="line">            cur.f = min(cur.f, next.f);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            ans++;</span><br><span class="line">            cur = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="题目2-蚂蚁改版"><a class="markdownIt-Anchor" href="#题目2-蚂蚁改版"></a> 题目2 蚂蚁（改版）</h1>
-<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h2>
+<h2 id="代码">代码</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs c++&#123;.line-numbers&#125;">#include &lt;iostream&gt;<br>#include &lt;vector&gt;<br>#include &lt;algorithm&gt;<br><br>using namespace std;<br><br>struct Interval &#123;<br>    int y, s, f; // 区间的起始位置、结束位置和高度<br>&#125;;<br><br>// 按照s, f, y的顺序对区间进行排序<br>bool compareIntervals(const Interval&amp; a, const Interval&amp; b) &#123;<br>    if (a.y != b.y) &#123;<br>        return a.y &lt; b.y;<br>    &#125;<br>    else if (a.s != b.s) &#123;<br>        return a.s &lt; b.s;<br>    &#125;<br>    else &#123;<br>        return a.f &lt; b.f;<br>    &#125;<br>&#125;<br><br>bool is_connected(Interval a, Interval b)<br>&#123;<br>    if (a.y != b.y)return 0;<br>    if (a.f &lt; b.s)return 0;<br>    if (a.s &gt; b.f)return 0;<br>    else return 1;<br>&#125;<br><br>int main()<br>&#123;<br>    int n;<br>    cin &gt;&gt; n;<br>    vector&lt;Interval&gt; intervals;<br>    for (int i = 1; i &lt;= n; i++)<br>    &#123;<br>        Interval x;<br>        int id, si, fi, yi, zi;<br>        cin &gt;&gt; id &gt;&gt; si &gt;&gt; fi &gt;&gt; yi &gt;&gt; zi;<br>        if (id == 1)continue;<br>        x.f = fi;<br>        x.s = si;<br>        x.y = yi;<br>        intervals.push_back(x);<br>    &#125;<br>    sort(intervals.begin(), intervals.end(), compareIntervals);<br>    Interval cur=intervals[0];<br>    int ans = 1;<br>    for (int i = 1; i &lt; intervals.size(); i++)<br>    &#123;<br>        Interval next = intervals[i];<br>        if (is_connected(cur, next))<br>        &#123;<br>            cur.s = max(cur.s, next.s);<br>            cur.f = min(cur.f, next.f);<br>        &#125;<br>        else<br>        &#123;<br>            ans++;<br>            cur = next;<br>        &#125;<br>    &#125;<br>    cout &lt;&lt; ans;<br>    return 0;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1>题目2 蚂蚁（改版）</h1>
+<h2 id="题目描述">题目描述</h2>
 <p>多组数据。</p>
 <p>数轴上有n只蚂蚁，保证初始位置两两不同。蚂蚁的初始方向有向左和向右两种。所有蚂蚁的速率始终为0.5单位每秒，当两只蚂蚁相遇时它们会立刻同时改变方向。</p>
 <p>问在m秒的时间内，两只蚂蚁相遇的事件共出现了多少次。</p>
 <p><em><a href="http://poj.org/problem?id=1852">原题链接</a></em></p>
-<h2 id="输入格式-2"><a class="markdownIt-Anchor" href="#输入格式-2"></a> 输入格式</h2>
+<h2 id="输入格式">输入格式</h2>
 <p>第一行一个整数T,代表数据组数。</p>
 <p>第2行两个整数n,m，代表蚂蚁的数量和时间。</p>
 <p>第3行到第n+2行，每行两个整数x,d，第i行的x和d表示第i-2只蚂蚁的初始位置为x，初始方向为d，d=0表示向右，d=1表示向左。</p>
-<h2 id="输出格式-2"><a class="markdownIt-Anchor" href="#输出格式-2"></a> 输出格式</h2>
+<h2 id="输出格式">输出格式</h2>
 <p>T个整数，代表第T组数据的答案。</p>
-<h2 id="样例"><a class="markdownIt-Anchor" href="#样例"></a> 样例</h2>
-<h3 id="输入"><a class="markdownIt-Anchor" href="#输入"></a> 输入</h3>
-<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">5</span><br><span class="line">4 3</span><br><span class="line"><span class="deletion">-1 0</span></span><br><span class="line">0 1</span><br><span class="line">2 1</span><br><span class="line">1 0</span><br><span class="line"></span><br><span class="line">6 4</span><br><span class="line"><span class="deletion">-1 1</span></span><br><span class="line">3 1</span><br><span class="line">7 1</span><br><span class="line">5 0</span><br><span class="line">0 1</span><br><span class="line"><span class="deletion">-2 0</span></span><br><span class="line"></span><br><span class="line">6 9</span><br><span class="line">4 1</span><br><span class="line"><span class="deletion">-1 1</span></span><br><span class="line">0 0</span><br><span class="line">3 1</span><br><span class="line"><span class="deletion">-3 0</span></span><br><span class="line"><span class="deletion">-2 1</span></span><br><span class="line"></span><br><span class="line">6 6</span><br><span class="line"><span class="deletion">-4 0</span></span><br><span class="line">5 0</span><br><span class="line">6 1</span><br><span class="line">3 0</span><br><span class="line"><span class="deletion">-6 1</span></span><br><span class="line">1 1</span><br><span class="line"></span><br><span class="line">6 8</span><br><span class="line"><span class="deletion">-2 1</span></span><br><span class="line"><span class="deletion">-6 1</span></span><br><span class="line">3 1</span><br><span class="line">8 1</span><br><span class="line"><span class="deletion">-4 0</span></span><br><span class="line"><span class="deletion">-3 0</span></span><br></pre></td></tr></table></figure>
-<h3 id="输出"><a class="markdownIt-Anchor" href="#输出"></a> 输出</h3>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">3</span><br><span class="line"></span><br><span class="line">3</span><br><span class="line"></span><br><span class="line">6</span><br><span class="line"></span><br><span class="line">3</span><br><span class="line"></span><br><span class="line">4</span><br></pre></td></tr></table></figure>
-<h3 id="解释"><a class="markdownIt-Anchor" href="#解释"></a> 解释</h3>
+<h2 id="样例">样例</h2>
+<h3 id="输入">输入</h3>
+<figure class="highlight diff"><table><tr><td class="code"><pre><code class="hljs diff">5<br>4 3<br><span class="hljs-deletion">-1 0</span><br>0 1<br>2 1<br>1 0<br><br>6 4<br><span class="hljs-deletion">-1 1</span><br>3 1<br>7 1<br>5 0<br>0 1<br><span class="hljs-deletion">-2 0</span><br><br>6 9<br>4 1<br><span class="hljs-deletion">-1 1</span><br>0 0<br>3 1<br><span class="hljs-deletion">-3 0</span><br><span class="hljs-deletion">-2 1</span><br><br>6 6<br><span class="hljs-deletion">-4 0</span><br>5 0<br>6 1<br>3 0<br><span class="hljs-deletion">-6 1</span><br>1 1<br><br>6 8<br><span class="hljs-deletion">-2 1</span><br><span class="hljs-deletion">-6 1</span><br>3 1<br>8 1<br><span class="hljs-deletion">-4 0</span><br><span class="hljs-deletion">-3 0</span><br></code></pre></td></tr></table></figure>
+<h3 id="输出">输出</h3>
+<figure class="highlight"><table><tr><td class="code"><pre><code class="hljs">3<br><br>3<br><br>6<br><br>3<br><br>4<br></code></pre></td></tr></table></figure>
+<h3 id="解释">解释</h3>
 <p>第一组数据：</p>
 <p>第一秒，蚂蚁1和2在-0.5相遇，蚂蚁3和4在1.5相遇，相遇后所有蚂蚁都掉转方向。</p>
 <p>第二秒，没有蚂蚁相遇，四只蚂蚁的坐标分别为 -1 0 2 1。</p>
 <p>第三秒，蚂蚁2和4在0.5相遇。</p>
-<h2 id="数据范围"><a class="markdownIt-Anchor" href="#数据范围"></a> 数据范围：</h2>
-<ul>
-<li>
+<h2 id="数据范围：">数据范围：</h2>
+<ul class="lvl-0">
+<li class="lvl-2">
 <p>对于30%的数据点，有：</p>
 <p>T≤ 10</p>
 <p>2 ≤ n ≤ 1000</p>
@@ -166,7 +109,7 @@ updated 2023/4/14 补充了第二题的解法。</p>
 <p>0 ≤ d ≤ 1</p>
 <p>1 ≤ m ≤ 2000</p>
 </li>
-<li>
+<li class="lvl-2">
 <p>对于60%的数据点，有：</p>
 <p>T≤ 10</p>
 <p>2 ≤ n ≤ 1000</p>
@@ -175,7 +118,7 @@ updated 2023/4/14 补充了第二题的解法。</p>
 <pre><code>1 ≤ m ≤ 200000
 </code></pre>
 </li>
-<li>
+<li class="lvl-2">
 <p>对于100%的数据点，有：</p>
 <p>T≤ 10</p>
 <p>2 ≤ n ≤ 1000</p>
@@ -183,7 +126,7 @@ updated 2023/4/14 补充了第二题的解法。</p>
 <p>0 ≤ d ≤ 1</p>
 <p>1 ≤ m ≤ 109</p>
 </li>
-<li>
+<li class="lvl-2">
 <p>对于120%的数据点，有：</p>
 <p>T≤ 10</p>
 <p>2 ≤ n的总和 ≤ 2*105</p>
@@ -192,10 +135,10 @@ updated 2023/4/14 补充了第二题的解法。</p>
 <p>1 ≤ m ≤ 109</p>
 </li>
 </ul>
-<h2 id="提示-2"><a class="markdownIt-Anchor" href="#提示-2"></a> 提示</h2>
+<h2 id="提示-2">提示</h2>
 <p>120%的数据：two pointers 双指针（又名尺取法）</p>
 <p>若希望通过120%的数据，注意答案的范围（开long long!）</p>
-<h2 id="分析-2"><a class="markdownIt-Anchor" href="#分析-2"></a> 分析</h2>
+<h2 id="分析-2">分析</h2>
 <p>首先，两只蚂蚁碰到一起后相互转向，就相当于两只蚂蚁擦肩而过。</p>
 <p>之后，两组蚂蚁相向而行，速度0.5，用相对运动的知识来看就是一组从左向右走（moving），一组不动（fixed），这样简化了我们的分析。</p>
 <p>“双指针”这东西我在做题前不知道，看了之后也是一头雾水，因为当时想着两组都在动，我两个指针怎么指？</p>
@@ -204,25 +147,26 @@ updated 2023/4/14 补充了第二题的解法。</p>
 <p>对于两个数组定义两个指针mi,fi，分别指向当前进行比较的点。</p>
 <p>比较的核心是<code>fixed[fi] - moving[mi]</code>的值，也就是这两个点的距离。当它小于等于m的时候，就说明m秒后这个点是可以被现在mi指向的移动点相遇过的。所以将fi+1，判断它右边的点在m秒后会不会被相遇。</p>
 <p>这个推进fi的过程会在两种情况下暂停或终止：</p>
-<ul>
-<li><code>fixed[fi] - moving[mi]&gt;m</code>，也就是现在fi指向的固定点不会被现在的移动点遇到了。由于排好了序，它前面可用的点一定被遇到过，它后面的点（包括它自己）一定不会被当前的移动点遇到了。这个时候应该将mi增加，去判断下一个移动点。</li>
-<li><code>fi==fixed.size()-1</code>,也就是我们已经遍历了现在的移动点右边的所有固定点,fi的值已经没法再增加了。这个时候我们应该增加mi，判断下一个移动点。</li>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p><code>fixed[fi] - moving[mi]&gt;m</code>，也就是现在fi指向的固定点不会被现在的移动点遇到了。由于排好了序，它前面可用的点一定被遇到过，它后面的点（包括它自己）一定不会被当前的移动点遇到了。这个时候应该将mi增加，去判断下一个移动点。</p>
+</li>
+<li class="lvl-2">
+<p><code>fi==fixed.size()-1</code>,也就是我们已经遍历了现在的移动点右边的所有固定点,fi的值已经没法再增加了。这个时候我们应该增加mi，判断下一个移动点。</p>
+</li>
 </ul>
 <p>在这两种情况下我们应该根据fi的值增加count，即将第mi个点在m秒后将要遇到的点数加入结果。</p>
 <p>之后我们考虑这样一个问题：移动点左边的固定点一定不会被这个移动点，以及之后将要比较的移动点遇到，所以应该将它从即将被这个点遇到的集合删去，于是我们定义指针inv。</p>
 <p>通过inv和fi，我们将fixed数组分成了三部分：</p>
-<figure class="highlight coq"><table><tr><td class="code"><pre><span class="line">不可能被moving[mi]遇到的点  |   <span class="type">在这m</span>秒内会被遇到的点   |   <span class="type">在这m</span>秒内不会被遇到的点</span><br><span class="line">                            inv                     fi</span><br></pre></td></tr></table></figure>
+<figure class="highlight coq"><table><tr><td class="code"><pre><code class="hljs coq">不可能被moving[mi]遇到的点  |   <span class="hljs-type">在这m</span>秒内会被遇到的点   |   <span class="hljs-type">在这m</span>秒内不会被遇到的点<br>                            inv                     fi<br></code></pre></td></tr></table></figure>
 <p>在每个循环内部，我们先比较inv+1对应的固定点是否在mi的左侧，是的话就向前推动inv，并且推进fi(如果被inv追上)。在保证剔除了不可能被遇到的点后更新fi的值，执行上述流程。</p>
-<p>关于count值的更新，重点是fi指着的点是否包含在会被遇到的点的集合里。因为上文的第二种情况中fi一定会被遇到，所以<code>count += fi - inv;</code><br />
-而第一种情况fi-1才是正好会被mi遇到的点，所以<code>count += fi - inv - 1;</code></p>
+<p>关于count值的更新，重点是fi指着的点是否包含在会被遇到的点的集合里。因为上文的第二种情况中fi一定会被遇到，所以<code>count += fi - inv;</code>而第一种情况fi-1才是正好会被mi遇到的点，所以<code>count += fi - inv - 1;</code></p>
 <p>所以，双指针实际上在fixed数组内，并且根据情况分别推进它们的值。这让我对这个算法有了一定的理解。</p>
-<h2 id="代码-2"><a class="markdownIt-Anchor" href="#代码-2"></a> 代码</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int T;</span><br><span class="line">	cin &gt;&gt; T;</span><br><span class="line">	while (T--)</span><br><span class="line">	&#123;</span><br><span class="line">	int n, m;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	vector&lt;int&gt; moving, fixed;//right-&gt;moving,left-&gt;fixed.</span><br><span class="line">	for (int i = 1; i &lt;= n; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		int x, d;</span><br><span class="line">		cin &gt;&gt; x &gt;&gt; d;</span><br><span class="line">		if (d == 0) moving.push_back(x);</span><br><span class="line">		else fixed.push_back(x);</span><br><span class="line">	&#125;</span><br><span class="line">	int mi = 0, fi = 0, inv = -1;</span><br><span class="line">	long long count = 0;</span><br><span class="line">	sort(moving.begin(), moving.end());</span><br><span class="line">	sort(fixed.begin(), fixed.end());</span><br><span class="line">	while (mi &lt; moving.size())</span><br><span class="line">	&#123;</span><br><span class="line">		if (fixed[inv + 1] &lt; moving[mi])</span><br><span class="line">		&#123;</span><br><span class="line">			inv++;</span><br><span class="line">			if (inv == fixed.size() - 1)break;</span><br><span class="line">			if (fi &lt;= inv)fi = inv + 1;</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			long long d = fixed[fi] - moving[mi];</span><br><span class="line">			if (d &lt;= m)</span><br><span class="line">			&#123;</span><br><span class="line">				if (fi == fixed.size()-1)</span><br><span class="line">				&#123;</span><br><span class="line">					count += fi - inv;</span><br><span class="line">					mi++;</span><br><span class="line">				&#125;</span><br><span class="line">				else</span><br><span class="line">					fi++;</span><br><span class="line">			&#125;</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">				count += fi - inv - 1;</span><br><span class="line">				mi++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; count &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="后记"><a class="markdownIt-Anchor" href="#后记"></a> 后记</h1>
-<p>作业的标题是巧用排序，现在来看确实是这么一回事。<br />
-第一题我一直想着用差分数组模拟，结果数组开不了那么大。在我束手无策的时候感谢<strong>ChatGPT</strong>提供的思路支持。第二问则相对复杂点，我跟他聊了几天也没讨论出来解决方案，最后还是自己想出来了。<s>赞美我的智慧</s><br />
-然而OJ2也出来了……我还是得去写……好烦啊……考试要是整这些我怎么办啊……（好日子还在后面呢）</p>
-<p>Written by Wing_k3695<br />
+<h2 id="代码-2">代码</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs c++&#123;.line-numbers&#125;">#include &lt;iostream&gt;<br>#include &lt;vector&gt;<br>#include &lt;algorithm&gt;<br><br>using namespace std;<br>int main()<br>&#123;<br>	int T;<br>	cin &gt;&gt; T;<br>	while (T--)<br>	&#123;<br>	int n, m;<br>	cin &gt;&gt; n &gt;&gt; m;<br>	vector&lt;int&gt; moving, fixed;//right-&gt;moving,left-&gt;fixed.<br>	for (int i = 1; i &lt;= n; i++)<br>	&#123;<br>		int x, d;<br>		cin &gt;&gt; x &gt;&gt; d;<br>		if (d == 0) moving.push_back(x);<br>		else fixed.push_back(x);<br>	&#125;<br>	int mi = 0, fi = 0, inv = -1;<br>	long long count = 0;<br>	sort(moving.begin(), moving.end());<br>	sort(fixed.begin(), fixed.end());<br>	while (mi &lt; moving.size())<br>	&#123;<br>		if (fixed[inv + 1] &lt; moving[mi])<br>		&#123;<br>			inv++;<br>			if (inv == fixed.size() - 1)break;<br>			if (fi &lt;= inv)fi = inv + 1;<br>		&#125;<br>		else<br>		&#123;<br>			long long d = fixed[fi] - moving[mi];<br>			if (d &lt;= m)<br>			&#123;<br>				if (fi == fixed.size()-1)<br>				&#123;<br>					count += fi - inv;<br>					mi++;<br>				&#125;<br>				else<br>					fi++;<br>			&#125;<br>			else<br>			&#123;<br>				count += fi - inv - 1;<br>				mi++;<br>			&#125;<br>		&#125;<br>	&#125;<br>	cout &lt;&lt; count &lt;&lt; endl;<br>	&#125;<br><br>	return 0;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1>后记</h1>
+<p>作业的标题是巧用排序，现在来看确实是这么一回事。第一题我一直想着用差分数组模拟，结果数组开不了那么大。在我束手无策的时候感谢<strong>ChatGPT</strong>提供的思路支持。第二问则相对复杂点，我跟他聊了几天也没讨论出来解决方案，最后还是自己想出来了。<s>赞美我的智慧</s>然而OJ2也出来了……我还是得去写……好烦啊……考试要是整这些我怎么办啊……（好日子还在后面呢）</p>
+<p>Written by Wing_k3695<br>
 2023/03/10</p>
 ]]></content>
       <categories>
@@ -232,6 +176,63 @@ updated 2023/4/14 补充了第二题的解法。</p>
         <tag>排序</tag>
         <tag>双指针法</tag>
         <tag>重合区间</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OJ2</title>
+    <url>/2023/04/01/OJ2/</url>
+    <content><![CDATA[<p>第二次作业。略有瑕疵。<br>
+updated 2023/4/14 补充了第二题的解法。</p>
+<span id="more"></span>
+<h1>多选问题</h1>
+<h2 id="题目描述：">题目描述：</h2>
+<p>给定一个大小为n的整数数组A={a<sub>1</sub>,a<sub>2</sub>,…,a<sub>n</sub>}，和一个由m个不同的正整数组成的升序数组K={k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>}，请设计算法依次返回数组A中第k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>小的数</p>
+<h2 id="提示1：">提示1：</h2>
+<p>输入格式：</p>
+<p>第一行依次为数组A、K的大小n、m，二者以一个空格间隔，末尾无空格</p>
+<p>第二行为数组A，相邻元素之间以一个空格间隔，末尾无空格</p>
+<p>第三行为数组K，相邻元素之间以一个空格间隔，末尾无空格</p>
+<p>输出格式：</p>
+<p>一行，依次为数组A中第k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>小的数，相邻元素之间以一个空格间隔，末尾无空格</p>
+<h2 id="提示2：">提示2：</h2>
+<h3 id="输入样例1：">输入样例1：</h3>
+<figure class="highlight basic"><table><tr><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">5 </span><span class="hljs-number">3</span><br><br><span class="hljs-symbol">1 </span><span class="hljs-number">3</span> <span class="hljs-number">2</span> <span class="hljs-number">5</span> <span class="hljs-number">4</span><br><br><span class="hljs-symbol">2 </span><span class="hljs-number">3</span> <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+<h3 id="输出样例1：">输出样例1：</h3>
+<figure class="highlight basic"><table><tr><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">2 </span><span class="hljs-number">3</span> <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+<h2 id="提示3：">提示3：</h2>
+<p>要求：算法的时间复杂度应低于$ O(nm) $，且选择算法不能直接调用任何库函数</p>
+<h2 id="提示4：">提示4：</h2>
+<p>1 &lt; m &lt; n &lt; 10<sup>7</sup></p>
+<p>数组A中任意元素a<sub>i</sub>满足：-2<sup>31</sup> &lt;= a<sub>i</sub> &lt;= 2<sup>31</sup>-1</p>
+<p>数组K中任意元素k<sub>j</sub>满足：1 &lt;= k<sub>j</sub> &lt;= n</p>
+<h2 id="分析">分析</h2>
+<p>选择算法，但是听说把快排基准值改一下就能过，于是先过了再说，赶时间。</p>
+<h2 id="代码">代码</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs c++&#123;.line-numbers&#125;">#include &lt;iostream&gt;<br>#include &lt;vector&gt;<br>using namespace std;<br><br>int partition(vector&lt;int&gt;&amp; arr, int left, int right) &#123;<br>    int mid = left + (right - left) / 2; // 使用中间值作为基准元素<br>    int pivot = arr[mid];<br>    int i = left - 1;<br>    int j = right + 1;<br><br>    while (true) &#123;<br>        do &#123;<br>            i++;<br>        &#125; while (arr[i] &lt; pivot);<br><br>        do &#123;<br>            j--;<br>        &#125; while (arr[j] &gt; pivot);<br><br>        if (i &gt;= j) &#123;<br>            return j;<br>        &#125;<br><br>        swap(arr[i], arr[j]);<br>    &#125;<br>&#125;<br><br>void quicksort(vector&lt;int&gt;&amp; arr, int left, int right) &#123;<br>    if (left &lt; right) &#123;<br>        int p = partition(arr, left, right);<br>        quicksort(arr, left, p);<br>        quicksort(arr, p + 1, right);<br>    &#125;<br>&#125;<br><br>int main() &#123;<br>    int n, m;<br>    cin &gt;&gt; n &gt;&gt; m;<br>    <br>    vector&lt;int&gt; arr(n),k(m);<br>    for (int i = 0; i &lt; arr.size(); i++)cin &gt;&gt; arr[i];<br>    for (int i = 0; i &lt; k.size(); i++)cin &gt;&gt; k[i];<br>    quicksort(arr, 0, arr.size() - 1);<br>    for (auto&amp; i : k)cout &lt;&lt; arr[i - 1] &lt;&lt; &quot; &quot;;<br>    cout &lt;&lt; endl;<br>    return 0;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h1>可能是原题</h1>
+<p>时间限制：1s， 空间限制：128MB<br>
+<strong>题目带格式了，复制粘贴很麻烦。题目的格式也没安排好，看着也有点费劲。</strong><br>
+<a href="https://triccsrs-organization.gitbook.io/xjwoj2023/oj2/t1-ke-neng-shi-yuan-ti">原题链接</a></p>
+<h2 id="分析-2">分析</h2>
+<p>统计逆序对</p>
+<p>统计逆序对嘛，mergesort就行了，问题是op=1的时候，需要对逆序对中出现过的每一个元素进行计数，依次计算会导致超时。</p>
+<p><em>如果要避免遍历整个数组来获取每个元素在逆序对中出现的次数，可以使用离散化和树状数组的方法。</em></p>
+<p><em>首先对原始数组进行离散化，将每个元素映射到一个连续的区间上。然后使用树状数组来统计每个元素在离散化后的数组中右侧比它小的元素的个数，这个数量即为该元素在逆序对中出现的次数。</em></p>
+<p><s>这是GPT给我说的，遗憾这会我还没学过，先搁置两周。</s></p>
+<p>使用树状数组，可以直接获得某个元素前面/后面比它大/小的元素数目。之后题目要求这个数字每次出现都要增加计数，所以还要求出另一边加到计数上面。</p>
+<p>对于一个$1-n$的排列，当数字$i$在位置$j$上面时，已知它后面有$k$个比它小的数字，那么它前面应该有$(n-i)-(n-j-k)=j+k-i$个比它大的数字。</p>
+<p>根据这个关系，在倒序树状数组处理一遍得到cnt[]后，再根据这个式子增加一遍cnt[]就得到了答案。</p>
+<p>另外，要求输出1~n这些数字的出现次数，所以用结构体把cnt和数字绑在一起，排序之后输出。</p>
+<p>最后，因为只输入了0~n-1，也省了离散化的步骤。有空专门写一篇总结树状数组和离散化吧。</p>
+<h2 id="120-代码">120%代码</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs c++&#123;.line-numbers&#125;">#include &lt;iostream&gt;<br>#include &lt;vector&gt;<br>#include &lt;algorithm&gt;<br>#include &lt;cstring&gt;<br>using namespace std;<br><br>#define N 200005<br>typedef long long ll;<br><br>struct node<br>&#123;<br>    ll cnt=0;<br>    ll num;<br>&#125; a[N];<br><br>bool op;<br><br>ll tree[N];<br>ll n;<br>ll sum=0;<br>void add(int x,int y)<br>&#123;<br>    for(;x&lt;=n;x+= x &amp; -x)tree[x]+=y;<br>&#125;<br><br>ll ask(int x)<br>&#123;<br>    int ans=0;<br>    for( ; x ; x -= x &amp; -x)ans+=tree[x];<br>    return ans;<br>&#125;<br><br>int main()<br>&#123;<br>    int T;<br>    cin&gt;&gt;T;<br>    while(T--)<br>    &#123;<br>        cin&gt;&gt;n&gt;&gt;op;<br>        for(int i=1;i&lt;=n;i++)<br>        &#123;<br>            cin&gt;&gt;a[i].num;<br>            a[i].num++;//输入0~n-1<br>        &#125;<br>        for(int i=n;i&gt;=1;i--)<br>        &#123;<br>            a[i].cnt=ask(a[i].num-1);<br>            sum+=a[i].cnt;<br>            add(a[i].num,1);<br>        &#125;<br>        for(int i=1;i&lt;=n;i++)<br>        &#123;<br>            a[i].cnt+=a[i].cnt+i-a[i].num;<br>        &#125;<br>        sort(a+1,a+n+1,[](node a,node b)&#123;return a.num&lt;b.num;&#125;);<br>        if(op==0)<br>            cout&lt;&lt;sum&lt;&lt;endl;<br>        else<br>        &#123;<br>            for(int i=1;i&lt;=n;i++)cout&lt;&lt;a[i].cnt&lt;&lt;&#x27; &#x27;;<br>            cout&lt;&lt;endl;<br>        &#125;<br>        memset(tree,0,sizeof(tree));<br>        sum=0;//多组数据，重置计数<br>    &#125;<br>    return 0;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>作业</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+        <tag>选择</tag>
+        <tag>逆序对</tag>
       </tags>
   </entry>
 </search>
