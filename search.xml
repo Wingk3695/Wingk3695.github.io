@@ -316,4 +316,24 @@ Z<sub>i</sub> = 1 or 2</p>
         <tag>并查集</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Tex-1</title>
+    <url>/2023/05/20/Tex-1/</url>
+    <content><![CDATA[<p>这里记录一些在使用LaTex时遇到的小问题和解决方案。</p>
+<span id="more"></span>
+<h2 id="base"><a class="markdownIt-Anchor" href="#base"></a> base</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><code class="hljs tex"><span class="hljs-keyword">\documentclass</span>[UTF8]&#123;ctexart&#125;<br><br><span class="hljs-keyword">\begin</span>&#123;document&#125;<br><span class="hljs-keyword">\section</span>&#123;带符号标题&#125;<br><span class="hljs-keyword">\section</span>*&#123;无符号标题&#125;<br><span class="hljs-keyword">\subsection</span>&#123;子段&#125;<br><span class="hljs-keyword">\end</span>&#123;document&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="标题"><a class="markdownIt-Anchor" href="#标题"></a> 标题</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><code class="hljs tex"><span class="hljs-keyword">\title</span>&#123;&#125;<br><span class="hljs-keyword">\author</span>&#123;&#125;<br><span class="hljs-keyword">\date</span>&#123;<span class="hljs-keyword">\today</span>&#125;<br><br><span class="hljs-keyword">\maketitle</span><br></code></pre></td></tr></table></figure>
+<h2 id="插入图片"><a class="markdownIt-Anchor" href="#插入图片"></a> 插入图片</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><code class="hljs tex"><span class="hljs-keyword">\usepackage</span>&#123;graphicx&#125;<br><br><span class="hljs-keyword">\begin</span>&#123;figure&#125;[htbp]<br>    <span class="hljs-keyword">\centering</span><br>    <span class="hljs-keyword">\includegraphics</span>[width=0.8<span class="hljs-keyword">\textwidth</span>]&#123;img/Exp.png&#125;<br>    <span class="hljs-keyword">\caption</span>&#123;标题&#125;<br><span class="hljs-keyword">\end</span>&#123;figure&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="插入matlab代码"><a class="markdownIt-Anchor" href="#插入matlab代码"></a> 插入matlab代码</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><code class="hljs tex"><span class="hljs-keyword">\usepackage</span>&#123;listings,matlab-prettifier&#125;<br><br><span class="hljs-keyword">\lstset</span>&#123;<br>        style=Matlab-editor,<br>        numbers      = left,<br>        frame        = single,<br>&#125;<br><br><span class="hljs-keyword">\lstinputlisting</span>[language=matlab]&#123;code/Exp.m&#125;<br><br><span class="hljs-keyword">\begin</span>&#123;lstlisting&#125;[language=matlab]<br>xxxxx<br><span class="hljs-keyword">\end</span>&#123;lstlisting&#125;<br></code></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>CheatNote</category>
+      </categories>
+      <tags>
+        <tag>LaTex</tag>
+      </tags>
+  </entry>
 </search>
