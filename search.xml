@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/03/14/Hello-World-0/</url>
+    <content><![CDATA[<h1 id="hello-world"><a class="markdownIt-Anchor" href="#hello-world"></a> Hello World</h1>
+<p>My first blog!!!</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>OJ2</title>
+    <url>/2023/04/01/OJ2/</url>
+    <content><![CDATA[<p>第二次作业。略有瑕疵。<br />
+updated 2023/4/14 补充了第二题的解法。</p>
+<span id="more"></span>
+<h1 id="多选问题"><a class="markdownIt-Anchor" href="#多选问题"></a> 多选问题</h1>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述：</h2>
+<p>给定一个大小为n的整数数组A={a<sub>1</sub>,a<sub>2</sub>,…,a<sub>n</sub>}，和一个由m个不同的正整数组成的升序数组K={k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>}，请设计算法依次返回数组A中第k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>小的数</p>
+<h2 id="提示1"><a class="markdownIt-Anchor" href="#提示1"></a> 提示1：</h2>
+<p>输入格式：</p>
+<p>第一行依次为数组A、K的大小n、m，二者以一个空格间隔，末尾无空格</p>
+<p>第二行为数组A，相邻元素之间以一个空格间隔，末尾无空格</p>
+<p>第三行为数组K，相邻元素之间以一个空格间隔，末尾无空格</p>
+<p>输出格式：</p>
+<p>一行，依次为数组A中第k<sub>1</sub>,k<sub>2</sub>,…,k<sub>m</sub>小的数，相邻元素之间以一个空格间隔，末尾无空格</p>
+<h2 id="提示2"><a class="markdownIt-Anchor" href="#提示2"></a> 提示2：</h2>
+<h3 id="输入样例1"><a class="markdownIt-Anchor" href="#输入样例1"></a> 输入样例1：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">5 3</span><br><span class="line"></span><br><span class="line">1 3 2 5 4</span><br><span class="line"></span><br><span class="line">2 3 5</span><br></pre></td></tr></table></figure>
+<h3 id="输出样例1"><a class="markdownIt-Anchor" href="#输出样例1"></a> 输出样例1：</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2 3 5</span><br></pre></td></tr></table></figure>
+<h2 id="提示3"><a class="markdownIt-Anchor" href="#提示3"></a> 提示3：</h2>
+<p>要求：算法的时间复杂度应低于$ O(nm) $，且选择算法不能直接调用任何库函数</p>
+<h2 id="提示4"><a class="markdownIt-Anchor" href="#提示4"></a> 提示4：</h2>
+<p>1 &lt; m &lt; n &lt; 10<sup>7</sup></p>
+<p>数组A中任意元素a<sub>i</sub>满足：-2<sup>31</sup> &lt;= a<sub>i</sub> &lt;= 2<sup>31</sup>-1</p>
+<p>数组K中任意元素k<sub>j</sub>满足：1 &lt;= k<sub>j</sub> &lt;= n</p>
+<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
+<p>选择算法，但是听说把快排基准值改一下就能过，于是先过了再说，赶时间。</p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">partition</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; arr, <span class="type">int</span> left, <span class="type">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> mid = left + (right - left) / <span class="number">2</span>; <span class="comment">// 使用中间值作为基准元素</span></span><br><span class="line">    <span class="type">int</span> pivot = arr[mid];</span><br><span class="line">    <span class="type">int</span> i = left - <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> j = right + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">while</span> (arr[i] &lt; pivot);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125; <span class="keyword">while</span> (arr[j] &gt; pivot);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i &gt;= j) &#123;</span><br><span class="line">            <span class="keyword">return</span> j;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">swap</span>(arr[i], arr[j]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">quicksort</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; arr, <span class="type">int</span> left, <span class="type">int</span> right)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="type">int</span> p = <span class="built_in">partition</span>(arr, left, right);</span><br><span class="line">        <span class="built_in">quicksort</span>(arr, left, p);</span><br><span class="line">        <span class="built_in">quicksort</span>(arr, p + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n, m;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    </span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">arr</span><span class="params">(n)</span>,<span class="title">k</span><span class="params">(m)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; arr.<span class="built_in">size</span>(); i++)cin &gt;&gt; arr[i];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k.<span class="built_in">size</span>(); i++)cin &gt;&gt; k[i];</span><br><span class="line">    <span class="built_in">quicksort</span>(arr, <span class="number">0</span>, arr.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; i : k)cout &lt;&lt; arr[i - <span class="number">1</span>] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="可能是原题"><a class="markdownIt-Anchor" href="#可能是原题"></a> 可能是原题</h1>
+<p>时间限制：1s， 空间限制：128MB<br />
+<strong>题目带格式了，复制粘贴很麻烦。题目的格式也没安排好，看着也有点费劲。</strong><br />
+<a href="https://triccsrs-organization.gitbook.io/xjwoj2023/oj2/t1-ke-neng-shi-yuan-ti">原题链接</a></p>
+<h2 id="分析-2"><a class="markdownIt-Anchor" href="#分析-2"></a> 分析</h2>
+<p>统计逆序对</p>
+<p>统计逆序对嘛，mergesort就行了，问题是op=1的时候，需要对逆序对中出现过的每一个元素进行计数，依次计算会导致超时。</p>
+<p><em>如果要避免遍历整个数组来获取每个元素在逆序对中出现的次数，可以使用离散化和树状数组的方法。</em></p>
+<p><em>首先对原始数组进行离散化，将每个元素映射到一个连续的区间上。然后使用树状数组来统计每个元素在离散化后的数组中右侧比它小的元素的个数，这个数量即为该元素在逆序对中出现的次数。</em></p>
+<p><s>这是GPT给我说的，遗憾这会我还没学过，先搁置两周。</s></p>
+<p>使用树状数组，可以直接获得某个元素前面/后面比它大/小的元素数目。之后题目要求这个数字每次出现都要增加计数，所以还要求出另一边加到计数上面。</p>
+<p>对于一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1-n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span>的排列，当数字<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span>在位置<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>上面时，已知它后面有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>个比它小的数字，那么它前面应该有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>i</mi><mo stretchy="false">)</mo><mo>−</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mi>j</mi><mo>−</mo><mi>k</mi><mo stretchy="false">)</mo><mo>=</mo><mi>j</mi><mo>+</mo><mi>k</mi><mo>−</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">(n-i)-(n-j-k)=j+k-i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span>个比它大的数字。</p>
+<p>根据这个关系，在倒序树状数组处理一遍得到cnt[]后，再根据这个式子增加一遍cnt[]就得到了答案。</p>
+<p>另外，要求输出1~n这些数字的出现次数，所以用结构体把cnt和数字绑在一起，排序之后输出。</p>
+<p>最后，因为只输入了0~n-1，也省了离散化的步骤。有空专门写一篇总结树状数组和离散化吧。</p>
+<h2 id="120代码"><a class="markdownIt-Anchor" href="#120代码"></a> 120%代码</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N 200005</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span></span><br><span class="line">&#123;</span><br><span class="line">    ll cnt=<span class="number">0</span>;</span><br><span class="line">    ll num;</span><br><span class="line">&#125; a[N];</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> op;</span><br><span class="line"></span><br><span class="line">ll tree[N];</span><br><span class="line">ll n;</span><br><span class="line">ll sum=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(;x&lt;=n;x+= x &amp; -x)tree[x]+=y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ll <span class="title">ask</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>( ; x ; x -= x &amp; -x)ans+=tree[x];</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> T;</span><br><span class="line">    cin&gt;&gt;T;</span><br><span class="line">    <span class="keyword">while</span>(T--)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;n&gt;&gt;op;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            cin&gt;&gt;a[i].num;</span><br><span class="line">            a[i].num++;<span class="comment">//输入0~n-1</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=n;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">        &#123;</span><br><span class="line">            a[i].cnt=<span class="built_in">ask</span>(a[i].num<span class="number">-1</span>);</span><br><span class="line">            sum+=a[i].cnt;</span><br><span class="line">            <span class="built_in">add</span>(a[i].num,<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            a[i].cnt+=a[i].cnt+i-a[i].num;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(a+<span class="number">1</span>,a+n+<span class="number">1</span>,[](node a,node b)&#123;<span class="keyword">return</span> a.num&lt;b.num;&#125;);</span><br><span class="line">        <span class="keyword">if</span>(op==<span class="number">0</span>)</span><br><span class="line">            cout&lt;&lt;sum&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)cout&lt;&lt;a[i].cnt&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">memset</span>(tree,<span class="number">0</span>,<span class="built_in">sizeof</span>(tree));</span><br><span class="line">        sum=<span class="number">0</span>;<span class="comment">//多组数据，重置计数</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>作业</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+        <tag>选择</tag>
+        <tag>逆序对</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OJ3</title>
+    <url>/2023/05/03/OJ3/</url>
+    <content><![CDATA[<p>第三次作业，过于简单。</p>
+<span id="more"></span>
+<h1 id="做作业"><a class="markdownIt-Anchor" href="#做作业"></a> 做作业</h1>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述：</h2>
+<p>假设算法课开学就布置好了一学期的作业，共N章课后习题，第i章的习题量为homework[i] (1 ≤ i ≤ N)，要求在一学期之内（共W周）做完</p>
+<p>现在你准备制定一个做作业的计划，规定自己每周做K道题，但是有些限制条件需要考虑：</p>
+<ol>
+<li>
+<p>由于老师1周只讲1章新的内容，因此第i周结束时最多能做完前i章的题；</p>
+</li>
+<li>
+<p>由于期中考试周（第⌊W/2⌋周）和期末考试周（第W周）需要复习已做过的题，因此这两周不做新题；</p>
+</li>
+</ol>
+<p>为了每周末能有足够的时间打游戏，你想尽量减小每周的题量K，但是又得保证在ddl前做完所有作业，请设计一个算法，帮助自己找到满足以上所有条件的K的最小值</p>
+<h2 id="提示1"><a class="markdownIt-Anchor" href="#提示1"></a> 提示1：</h2>
+<p>输入格式：</p>
+<p>第一行依次为数组homework的大小N、一学期的周数W，二者以一个空格间隔，末尾无空格</p>
+<p>第二行为数组homework，相邻元素之间以一个空格间隔，末尾无空格</p>
+<p>输出格式：</p>
+<p>一个正整数，即K的最小值</p>
+<h2 id="提示2"><a class="markdownIt-Anchor" href="#提示2"></a> 提示2：</h2>
+<p>输入样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">6 8</span><br><span class="line"></span><br><span class="line">3 4 5 6 2 1</span><br></pre></td></tr></table></figure>
+<p>输出样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure>
+<p>样例1解释：</p>
+<ol>
+<li>
+<p>若K=4：前2周显然全部做完 =&gt; 第3周5题做了4道，还剩1道 =&gt; 第4周期中考试，复习不做题，累计1+6=7道题没做 =&gt; 第5周做题前累计可做7+2=9道，做了4道，还剩5道 =&gt; 第6周做题前累计可做5+1=6道，做了4道，还剩2道 =&gt; 第7周做题前所有作业还剩2道，可全部做完 =&gt; 第8周期末考试，复习不做题 =&gt; 学期结束后做完所有作业，满足条件</p>
+</li>
+<li>
+<p>若K=3：第一周刚好做完 =&gt; 第2周4题做了3道，还剩1道 =&gt; 第3周做题前累计可做1+5=6道，做了3道，还剩3道 =&gt; 第4周期中考试，复习不做题，累计3+6=9道题没做 =&gt; 第5周做题前累计可做9+2=11道，做了3道，还剩8道 =&gt; 第6周做题前累计可做8+1=9道，做了3道，还剩6道 =&gt; 第7周做题前所有作业还剩6道，做了3道，还剩3道 =&gt; 第8周期末考试，复习不做题 =&gt; 学期结束后还有3道题没做，不满足条件</p>
+</li>
+</ol>
+<p>综合①②：K ≥ 4 =&gt; K<sub>min</sub> = 4</p>
+<h2 id="提示3"><a class="markdownIt-Anchor" href="#提示3"></a> 提示3：</h2>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>N</mi><mo>&lt;</mo><mi>W</mi><mo>&lt;</mo><mn>2</mn><mi>N</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">1 ≤ N &lt; W &lt; 2N ≤ 10^6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></p>
+<p>数组homework中任意元素hi满足：1 ≤ h<sub>i</sub> ≤ N</p>
+<h2 id="提示4"><a class="markdownIt-Anchor" href="#提示4"></a> 提示4：</h2>
+<p>要求：算法的时间复杂度应该不超过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(NlogN)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></p>
+<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
+<p>N&lt;=W-1.</p>
+<p>时间复杂度提示我们二分查找答案，于是二分+模拟验证就能过。有一点要注意的就是右边界应该是w+2，例如n=3,w=4时给了3，3，3的作业量，这时只有每周做<br />
+6篇才能完成。这是最严格的下界。其实二分直接拿2N当右边界都完全没问题。</p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N 1000002</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ll homework[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">check</span><span class="params">(ll n,ll w,ll k,ll sum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll week=<span class="number">1</span>,undone=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;w;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(i==w/<span class="number">2</span>||i==w)</span><br><span class="line">        &#123;</span><br><span class="line">            week++;</span><br><span class="line">            undone+=homework[i];</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(k&gt;=homework[i])</span><br><span class="line">        &#123;</span><br><span class="line">            ll tmp=k-homework[i];</span><br><span class="line">            undone-=tmp;</span><br><span class="line">            <span class="keyword">if</span>(undone&lt;<span class="number">0</span>)undone=<span class="number">0</span>;</span><br><span class="line">            week++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            undone+=homework[i]-k;</span><br><span class="line">            week++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(week&gt;w)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(undone&gt;<span class="number">0</span>)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ll n,week;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;week;</span><br><span class="line">    ll sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;homework[i];</span><br><span class="line">        sum+=homework[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//关于边缘的选取：N至多只能是W-1,最终会漏至多W-1个作业，将其平摊到W-2的可用周中，就需要+2.</span></span><br><span class="line">    ll l=<span class="number">1</span>,r=week+<span class="number">2</span>;<span class="comment">//极端情况下，例如n=3,w=4,3 3 3，这时即使每天做3题也不够。</span></span><br><span class="line">    ll ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)</span><br><span class="line">    &#123;</span><br><span class="line">        ll mid=(l+r)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">check</span>(n,week,mid,sum))</span><br><span class="line">        &#123;</span><br><span class="line">            ans=mid;</span><br><span class="line">            r=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="题目并查集"><a class="markdownIt-Anchor" href="#题目并查集"></a> 题目：并查集</h1>
+<h2 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述：</h2>
+<p>如题，现在有一个并查集，你需要完成合并和查询操作。</p>
+<h2 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式</h2>
+<p>第一行包含两个整数N，M，表示共有N个元素和M个操作。<br />
+接下来M行，每行三个整数Z<sub>i</sub>，X<sub>i</sub>，Y<sub>i</sub>。<br />
+当Z<sub>i</sub>=1时，将X<sub>i</sub>与Y<sub>i</sub>所在的集合合并。<br />
+当Z<sub>i</sub>=2时，输出X<sub>i</sub>与Y<sub>i</sub>是否在同一集合内，是的输出Y；否则输出N。</p>
+<h2 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式</h2>
+<p>对于每个Z<sub>i</sub>=2的操作，都有一行输出，每行包含一个大写字母，为Y或者N。</p>
+<h2 id="样例输入"><a class="markdownIt-Anchor" href="#样例输入"></a> 样例输入</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4 7</span><br><span class="line">2 1 2</span><br><span class="line">1 1 2</span><br><span class="line">2 1 2</span><br><span class="line">1 3 4</span><br><span class="line">2 1 4</span><br><span class="line">1 2 3</span><br><span class="line">2 1 4</span><br></pre></td></tr></table></figure>
+<h2 id="样例输出"><a class="markdownIt-Anchor" href="#样例输出"></a> 样例输出</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">N</span><br><span class="line">Y</span><br><span class="line">N</span><br><span class="line">Y</span><br></pre></td></tr></table></figure>
+<h2 id="数据范围"><a class="markdownIt-Anchor" href="#数据范围"></a> 数据范围</h2>
+<p>1 ≤ N ≤ 10<sup>6</sup><br />
+1 ≤ M ≤ 10<sup>6</sup><br />
+1 ≤ X<sub>i</sub>, Y<sub>i</sub> ≤ N<br />
+Z<sub>i</sub> = 1 or 2</p>
+<h2 id="分析-2"><a class="markdownIt-Anchor" href="#分析-2"></a> 分析</h2>
+<p>并查集模板。</p>
+<h2 id="代码-2"><a class="markdownIt-Anchor" href="#代码-2"></a> 代码</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX 1000005</span></span><br><span class="line"><span class="type">int</span> fa[MAX];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        fa[i]=i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Find</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(fa[x]==x) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> fa[x]=<span class="built_in">Find</span>(fa[x]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Union</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> fx=<span class="built_in">Find</span>(x);</span><br><span class="line">    <span class="type">int</span> fy=<span class="built_in">Find</span>(y);</span><br><span class="line">    <span class="keyword">if</span>(fx!=fy)</span><br><span class="line">    &#123;</span><br><span class="line">        fa[fx]=fy;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> N,M;</span><br><span class="line">    cin&gt;&gt;N&gt;&gt;M;</span><br><span class="line">    <span class="built_in">init</span>(N);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=M;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> z,x,y;</span><br><span class="line">        cin&gt;&gt;z&gt;&gt;x&gt;&gt;y;</span><br><span class="line">        <span class="keyword">switch</span>(z)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>:<span class="comment">//Union</span></span><br><span class="line">                <span class="built_in">Union</span>(x,y);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:<span class="comment">//Find</span></span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">Find</span>(x)==<span class="built_in">Find</span>(y)) cout&lt;&lt;<span class="string">&quot;Y&quot;</span>&lt;&lt;endl;</span><br><span class="line">                <span class="keyword">else</span> cout&lt;&lt;<span class="string">&quot;N&quot;</span>&lt;&lt;endl;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>作业</category>
+      </categories>
+      <tags>
+        <tag>二分</tag>
+        <tag>模拟</tag>
+        <tag>并查集</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OJ1</title>
+    <url>/2023/03/10/OJ1/</url>
+    <content><![CDATA[<p>第一次作业，应用了排序简化处理过程。</p>
+<span id="more"></span>
+<h1 id="题目1-射击游戏"><a class="markdownIt-Anchor" href="#题目1-射击游戏"></a> 题目1 射击游戏</h1>
+<h2 id="说明"><a class="markdownIt-Anchor" href="#说明"></a> 说明</h2>
+<p><img src="/2023/03/14/OJ1/images/shooting_game.png" alt="图片" /></p>
+<p>假设总共有两类物体：飞船怪兽和大眼虫，id分别用0和1来表示，射击时看作质点；</p>
+<p>射击目标只有飞船怪兽，射下所有飞船怪兽则游戏成功，射中任意一只大眼虫则游戏失败；</p>
+<p>每个物体o<sub>i</sub>的竖直高度和景深固定而不尽相同，分别用y<sub>i</sub>和z<sub>i</sub>来表示；</p>
+<p>但为了简单起见，假设任意物体o<sub>i</sub>都只在其景深所在竖直平面的水平方向上运动，且运动范围受限，即x<sub>i</sub> ∈ [s<sub>i</sub>, f<sub>i</sub>]，<strong>运动速度随机</strong>；</p>
+<p>你有一把Gru的电磁炮枪，这把枪一次射击可以<strong>瞬间击穿沿路的所有物体，且轨迹不会被改变</strong>；</p>
+<p>但是你只能沿着某条垂直于竖直面的直线射击，即子弹(也看作质点)的x<sub>i</sub>, y<sub>i</sub>不会改变，只有景深z<sub>i</sub>在增大；</p>
+<p>假设<strong>时间无限制</strong>，Gru为了证明自己是神枪手，想尽量把握时机，以用最少的射击次数赢下比赛；</p>
+<p>请问他至少要射击多少次才能为女儿赢下独角兽？</p>
+<h2 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h2>
+<h3 id="提示1"><a class="markdownIt-Anchor" href="#提示1"></a> 提示1：</h3>
+<h4 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式：</h4>
+<p>第1行是物体总数N</p>
+<p>第2行到第N+1行，每行依次描述一个物体的身份id、运动范围[s<sub>i</sub>, f<sub>i</sub>]、高度y<sub>i</sub>、景深z<sub>i</sub>，每行分量之间以一个空格间隔，末尾无空格</p>
+<h4 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式：</h4>
+<p>一行，即输出最小的射击次数k</p>
+<h3 id="提示2"><a class="markdownIt-Anchor" href="#提示2"></a> 提示2：</h3>
+<h4 id="输入样例1"><a class="markdownIt-Anchor" href="#输入样例1"></a> 输入样例1：</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">5</span><br><span class="line"></span><br><span class="line">0 1 3 3 2</span><br><span class="line"></span><br><span class="line">1 3 5 3 3</span><br><span class="line"></span><br><span class="line">0 2 4 3 4</span><br><span class="line"></span><br><span class="line">0 3 4 5 2</span><br><span class="line"></span><br><span class="line">0 4 5 5 3</span><br></pre></td></tr></table></figure>
+<h4 id="输出样例1"><a class="markdownIt-Anchor" href="#输出样例1"></a> 输出样例1：</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2</span><br></pre></td></tr></table></figure>
+<h4 id="样例1解释"><a class="markdownIt-Anchor" href="#样例1解释"></a> 样例1解释：</h4>
+<p>在某个时刻，可能会出现物体1,3两只飞船怪兽均运动到x=2，则此刻朝着x=2, y=3射击，会避开物体2的大眼虫而一发射中物体1,3；</p>
+<p>同理，某个时刻可能会出现物体4,5两只飞船怪兽均运动到x=4，则此刻朝着x=4, y=5射击，也可一枪二兽；</p>
+<p>由于物体1,4处在不同的高度，一枪不可能同时击中所有飞船怪兽，故至少需要2枪，因此k=2；</p>
+<h3 id="提示3"><a class="markdownIt-Anchor" href="#提示3"></a> 提示3：</h3>
+<p>数据范围：</p>
+<p>1 ≤ N ≤ 1e5</p>
+<p>-2<sup>31</sup> ≤ s<sub>i</sub>, f<sub>i</sub>, y<sub>i</sub>, z<sub>i</sub> ≤ 2<sup>31</sup> - 1<br />
+≠ z<sub>j</sub></p>
+<h3 id="提示4"><a class="markdownIt-Anchor" href="#提示4"></a> 提示4：</h3>
+<p>进阶：假设其他条件不变，现在每个物体能在同一个竖直面上沿着水平或者竖直方向，有限范围内移动，即x<sub>i</sub> ∈ [s<sub>i</sub>, f<sub>i</sub>], y<sub>i</sub> ∈ [p<sub>i</sub>, q<sub>i</sub>]，则至少需要多少次射击才能赢下游戏呢，感兴趣的同学可以思考一下~</p>
+<h2 id="分析"><a class="markdownIt-Anchor" href="#分析"></a> 分析</h2>
+<h3 id="干扰项"><a class="markdownIt-Anchor" href="#干扰项"></a> 干扰项</h3>
+<p>首先因为枪可以瞬间击穿一个点上的所有靶子，所以<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>坐标没有意义。</p>
+<p>其次因为移动速度随机，时间无限，所以障碍物没有意义。</p>
+<p>同样的原因，这个问题就转化为寻找这些区间的最大覆盖。</p>
+<h3 id="思路"><a class="markdownIt-Anchor" href="#思路"></a> 思路</h3>
+<p>先将给的区间按照$ y,s,f $从大到小的顺序排序，以方便后续操作。</p>
+<p>之后开始遍历每个区间。定义<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>u</mi><mi>r</mi><mi>r</mi><mi>e</mi><mi>n</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">current</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span></span></span></span>变量存储当前的最大覆盖。定义函数is_connected()判断两个区间是否有重合部分。当两个区间有重合时，它们的重合部分就是这两个区间的最大覆盖，我们的枪就可以瞄着这个重合部分打中所有的区间。而当两个区间没有重合，由于数据已经排好序，我们可以确定<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>u</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">cur</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span></span></span>区间一定没有办法覆盖剩下的区间，于是将下一个区间作为当前的最大覆盖，并且count++。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Interval next = intervals[i];</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">is_connected</span>(cur, next))</span><br><span class="line">        &#123;</span><br><span class="line">            cur.s = <span class="built_in">max</span>(cur.s, next.s);</span><br><span class="line">            cur.f = <span class="built_in">min</span>(cur.f, next.f);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ans++;</span><br><span class="line">            cur = next;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>最后，对于提示4，我们的代码应该更新成找一个二维平面上的最小覆盖，这里的排序方法、缩小方法重新修改一下就好了。当然我没写，不一定对。</p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Interval</span> &#123;</span><br><span class="line">    <span class="type">int</span> y, s, f; <span class="comment">// 区间的起始位置、结束位置和高度</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按照s, f, y的顺序对区间进行排序</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">compareIntervals</span><span class="params">(<span class="type">const</span> Interval&amp; a, <span class="type">const</span> Interval&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a.y != b.y) &#123;</span><br><span class="line">        <span class="keyword">return</span> a.y &lt; b.y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (a.s != b.s) &#123;</span><br><span class="line">        <span class="keyword">return</span> a.s &lt; b.s;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a.f &lt; b.f;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">is_connected</span><span class="params">(Interval a, Interval b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a.y != b.y)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (a.f &lt; b.s)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (a.s &gt; b.f)<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    vector&lt;Interval&gt; intervals;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Interval x;</span><br><span class="line">        <span class="type">int</span> id, si, fi, yi, zi;</span><br><span class="line">        cin &gt;&gt; id &gt;&gt; si &gt;&gt; fi &gt;&gt; yi &gt;&gt; zi;</span><br><span class="line">        <span class="keyword">if</span> (id == <span class="number">1</span>)<span class="keyword">continue</span>;</span><br><span class="line">        x.f = fi;</span><br><span class="line">        x.s = si;</span><br><span class="line">        x.y = yi;</span><br><span class="line">        intervals.<span class="built_in">push_back</span>(x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(intervals.<span class="built_in">begin</span>(), intervals.<span class="built_in">end</span>(), compareIntervals);</span><br><span class="line">    Interval cur=intervals[<span class="number">0</span>];</span><br><span class="line">    <span class="type">int</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; intervals.<span class="built_in">size</span>(); i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Interval next = intervals[i];</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">is_connected</span>(cur, next))</span><br><span class="line">        &#123;</span><br><span class="line">            cur.s = <span class="built_in">max</span>(cur.s, next.s);</span><br><span class="line">            cur.f = <span class="built_in">min</span>(cur.f, next.f);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            ans++;</span><br><span class="line">            cur = next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="题目2-蚂蚁改版"><a class="markdownIt-Anchor" href="#题目2-蚂蚁改版"></a> 题目2 蚂蚁（改版）</h1>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h2>
+<p>多组数据。</p>
+<p>数轴上有n只蚂蚁，保证初始位置两两不同。蚂蚁的初始方向有向左和向右两种。所有蚂蚁的速率始终为0.5单位每秒，当两只蚂蚁相遇时它们会立刻同时改变方向。</p>
+<p>问在m秒的时间内，两只蚂蚁相遇的事件共出现了多少次。</p>
+<p><em><a href="http://poj.org/problem?id=1852">原题链接</a></em></p>
+<h2 id="输入格式-2"><a class="markdownIt-Anchor" href="#输入格式-2"></a> 输入格式</h2>
+<p>第一行一个整数T,代表数据组数。</p>
+<p>第2行两个整数n,m，代表蚂蚁的数量和时间。</p>
+<p>第3行到第n+2行，每行两个整数x,d，第i行的x和d表示第i-2只蚂蚁的初始位置为x，初始方向为d，d=0表示向右，d=1表示向左。</p>
+<h2 id="输出格式-2"><a class="markdownIt-Anchor" href="#输出格式-2"></a> 输出格式</h2>
+<p>T个整数，代表第T组数据的答案。</p>
+<h2 id="样例"><a class="markdownIt-Anchor" href="#样例"></a> 样例</h2>
+<h3 id="输入"><a class="markdownIt-Anchor" href="#输入"></a> 输入</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">5</span><br><span class="line">4 3</span><br><span class="line">-1 0</span><br><span class="line">0 1</span><br><span class="line">2 1</span><br><span class="line">1 0</span><br><span class="line"></span><br><span class="line">6 4</span><br><span class="line">-1 1</span><br><span class="line">3 1</span><br><span class="line">7 1</span><br><span class="line">5 0</span><br><span class="line">0 1</span><br><span class="line">-2 0</span><br><span class="line"></span><br><span class="line">6 9</span><br><span class="line">4 1</span><br><span class="line">-1 1</span><br><span class="line">0 0</span><br><span class="line">3 1</span><br><span class="line">-3 0</span><br><span class="line">-2 1</span><br><span class="line"></span><br><span class="line">6 6</span><br><span class="line">-4 0</span><br><span class="line">5 0</span><br><span class="line">6 1</span><br><span class="line">3 0</span><br><span class="line">-6 1</span><br><span class="line">1 1</span><br><span class="line"></span><br><span class="line">6 8</span><br><span class="line">-2 1</span><br><span class="line">-6 1</span><br><span class="line">3 1</span><br><span class="line">8 1</span><br><span class="line">-4 0</span><br><span class="line">-3 0</span><br></pre></td></tr></table></figure>
+<h3 id="输出"><a class="markdownIt-Anchor" href="#输出"></a> 输出</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">3</span><br><span class="line"></span><br><span class="line">3</span><br><span class="line"></span><br><span class="line">6</span><br><span class="line"></span><br><span class="line">3</span><br><span class="line"></span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+<h3 id="解释"><a class="markdownIt-Anchor" href="#解释"></a> 解释</h3>
+<p>第一组数据：</p>
+<p>第一秒，蚂蚁1和2在-0.5相遇，蚂蚁3和4在1.5相遇，相遇后所有蚂蚁都掉转方向。</p>
+<p>第二秒，没有蚂蚁相遇，四只蚂蚁的坐标分别为 -1 0 2 1。</p>
+<p>第三秒，蚂蚁2和4在0.5相遇。</p>
+<h2 id="数据范围"><a class="markdownIt-Anchor" href="#数据范围"></a> 数据范围：</h2>
+<ul>
+<li>
+<p>对于30%的数据点，有：</p>
+<p>T≤ 10</p>
+<p>2 ≤ n ≤ 1000</p>
+<p>-1000 ≤ x ≤ 1000</p>
+<p>0 ≤ d ≤ 1</p>
+<p>1 ≤ m ≤ 2000</p>
+</li>
+<li>
+<p>对于60%的数据点，有：</p>
+<p>T≤ 10</p>
+<p>2 ≤ n ≤ 1000</p>
+<p>-105 ≤ x ≤ 105</p>
+<p>0 ≤ d ≤ 1</p>
+<pre><code>1 ≤ m ≤ 200000
+</code></pre>
+</li>
+<li>
+<p>对于100%的数据点，有：</p>
+<p>T≤ 10</p>
+<p>2 ≤ n ≤ 1000</p>
+<p>-109 ≤ x ≤ 109</p>
+<p>0 ≤ d ≤ 1</p>
+<p>1 ≤ m ≤ 109</p>
+</li>
+<li>
+<p>对于120%的数据点，有：</p>
+<p>T≤ 10</p>
+<p>2 ≤ n的总和 ≤ 2*105</p>
+<p>-109 ≤ x ≤ 109</p>
+<p>0 ≤ d ≤ 1</p>
+<p>1 ≤ m ≤ 109</p>
+</li>
+</ul>
+<h2 id="提示-2"><a class="markdownIt-Anchor" href="#提示-2"></a> 提示</h2>
+<p>120%的数据：two pointers 双指针（又名尺取法）</p>
+<p>若希望通过120%的数据，注意答案的范围（开long long!）</p>
+<h2 id="分析-2"><a class="markdownIt-Anchor" href="#分析-2"></a> 分析</h2>
+<p>首先，两只蚂蚁碰到一起后相互转向，就相当于两只蚂蚁擦肩而过。</p>
+<p>之后，两组蚂蚁相向而行，速度0.5，用相对运动的知识来看就是一组从左向右走（moving），一组不动（fixed），这样简化了我们的分析。</p>
+<p>“双指针”这东西我在做题前不知道，看了之后也是一头雾水，因为当时想着两组都在动，我两个指针怎么指？</p>
+<p>最后慢慢想明白了，双指针其实是两个指在固定点数组的指针，而题目里说点在动，但算的时候并不是真正在动，而是比较两个点距离和m的大小。</p>
+<p><em>首先对moving和fixed两个数组进行从小到大的排序。</em></p>
+<p>对于两个数组定义两个指针mi,fi，分别指向当前进行比较的点。</p>
+<p>比较的核心是<code>fixed[fi] - moving[mi]</code>的值，也就是这两个点的距离。当它小于等于m的时候，就说明m秒后这个点是可以被现在mi指向的移动点相遇过的。所以将fi+1，判断它右边的点在m秒后会不会被相遇。</p>
+<p>这个推进fi的过程会在两种情况下暂停或终止：</p>
+<ul>
+<li><code>fixed[fi] - moving[mi]&gt;m</code>，也就是现在fi指向的固定点不会被现在的移动点遇到了。由于排好了序，它前面可用的点一定被遇到过，它后面的点（包括它自己）一定不会被当前的移动点遇到了。这个时候应该将mi增加，去判断下一个移动点。</li>
+<li><code>fi==fixed.size()-1</code>,也就是我们已经遍历了现在的移动点右边的所有固定点,fi的值已经没法再增加了。这个时候我们应该增加mi，判断下一个移动点。</li>
+</ul>
+<p>在这两种情况下我们应该根据fi的值增加count，即将第mi个点在m秒后将要遇到的点数加入结果。</p>
+<p>之后我们考虑这样一个问题：移动点左边的固定点一定不会被这个移动点，以及之后将要比较的移动点遇到，所以应该将它从即将被这个点遇到的集合删去，于是我们定义指针inv。</p>
+<p>通过inv和fi，我们将fixed数组分成了三部分：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">不可能被moving[mi]遇到的点  |   在这m秒内会被遇到的点   |   在这m秒内不会被遇到的点</span><br><span class="line">                            inv                     fi</span><br></pre></td></tr></table></figure>
+<p>在每个循环内部，我们先比较inv+1对应的固定点是否在mi的左侧，是的话就向前推动inv，并且推进fi(如果被inv追上)。在保证剔除了不可能被遇到的点后更新fi的值，执行上述流程。</p>
+<p>关于count值的更新，重点是fi指着的点是否包含在会被遇到的点的集合里。因为上文的第二种情况中fi一定会被遇到，所以<code>count += fi - inv;</code><br />
+而第一种情况fi-1才是正好会被mi遇到的点，所以<code>count += fi - inv - 1;</code></p>
+<p>所以，双指针实际上在fixed数组内，并且根据情况分别推进它们的值。这让我对这个算法有了一定的理解。</p>
+<h2 id="代码-2"><a class="markdownIt-Anchor" href="#代码-2"></a> 代码</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> T;</span><br><span class="line">	cin &gt;&gt; T;</span><br><span class="line">	<span class="keyword">while</span> (T--)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="type">int</span> n, m;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	vector&lt;<span class="type">int</span>&gt; moving, fixed;<span class="comment">//right-&gt;moving,left-&gt;fixed.</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> x, d;</span><br><span class="line">		cin &gt;&gt; x &gt;&gt; d;</span><br><span class="line">		<span class="keyword">if</span> (d == <span class="number">0</span>) moving.<span class="built_in">push_back</span>(x);</span><br><span class="line">		<span class="keyword">else</span> fixed.<span class="built_in">push_back</span>(x);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> mi = <span class="number">0</span>, fi = <span class="number">0</span>, inv = <span class="number">-1</span>;</span><br><span class="line">	<span class="type">long</span> <span class="type">long</span> count = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">sort</span>(moving.<span class="built_in">begin</span>(), moving.<span class="built_in">end</span>());</span><br><span class="line">	<span class="built_in">sort</span>(fixed.<span class="built_in">begin</span>(), fixed.<span class="built_in">end</span>());</span><br><span class="line">	<span class="keyword">while</span> (mi &lt; moving.<span class="built_in">size</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (fixed[inv + <span class="number">1</span>] &lt; moving[mi])</span><br><span class="line">		&#123;</span><br><span class="line">			inv++;</span><br><span class="line">			<span class="keyword">if</span> (inv == fixed.<span class="built_in">size</span>() - <span class="number">1</span>)<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">if</span> (fi &lt;= inv)fi = inv + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">long</span> <span class="type">long</span> d = fixed[fi] - moving[mi];</span><br><span class="line">			<span class="keyword">if</span> (d &lt;= m)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (fi == fixed.<span class="built_in">size</span>()<span class="number">-1</span>)</span><br><span class="line">				&#123;</span><br><span class="line">					count += fi - inv;</span><br><span class="line">					mi++;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span></span><br><span class="line">					fi++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				count += fi - inv - <span class="number">1</span>;</span><br><span class="line">				mi++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; count &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="后记"><a class="markdownIt-Anchor" href="#后记"></a> 后记</h1>
+<p>作业的标题是巧用排序，现在来看确实是这么一回事。<br />
+第一题我一直想着用差分数组模拟，结果数组开不了那么大。在我束手无策的时候感谢<strong>ChatGPT</strong>提供的思路支持。第二问则相对复杂点，我跟他聊了几天也没讨论出来解决方案，最后还是自己想出来了。<s>赞美我的智慧</s><br />
+然而OJ2也出来了……我还是得去写……好烦啊……考试要是整这些我怎么办啊……（好日子还在后面呢）</p>
+<p>Written by Wing_k3695<br />
+2023/03/10</p>
+]]></content>
+      <categories>
+        <category>作业</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+        <tag>双指针法</tag>
+        <tag>重合区间</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OJ4</title>
+    <url>/2023/05/24/OJ4/</url>
+    <content><![CDATA[<p>时间问题没做完，就这样吧。</p>
+<span id="more"></span>
+<h1 id="链路广播"><a class="markdownIt-Anchor" href="#链路广播"></a> 链路广播</h1>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h2>
+<p>假设南大的局域网中有N个主机节点，有M条已经搭建好的链路，每条链路直接连接两台主机；</p>
+<p>为了更好实现这些主机节点的数据共享，校领导希望从任意一个节点发送的数据帧都能以最小的总链路代价W<sub>0</sub>广播到所有其他节点；</p>
+<p>同时校庆将至，校领导决定逐个更换或新建共K条链路，以进一步降低广播代价。但是他们并不知道第i+1条待更换或新修的链路是否能够真的降低目前的最小总链路代价W<sub>i</sub>，如果是，则开始更换或搭建，更新好后再考虑第i+2条链路，否则就放弃该条，直接考虑第i+2条链路；</p>
+<p>现在校领导求助算法学的很好的你，你能帮助他们解答上述问题吗？</p>
+<h2 id="提示0"><a class="markdownIt-Anchor" href="#提示0"></a> 提示0</h2>
+<p>N个节点的节点标号依次为0~N-1；</p>
+<p>每条链路用一个三元组(u,v,w)表示，其含义为节点u和节点v之间有一条代价为w的直接链路；</p>
+<h2 id="提示1"><a class="markdownIt-Anchor" href="#提示1"></a> 提示1</h2>
+<h3 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式：</h3>
+<p>第1行依次为N,M,K，三者以一个空格间隔，末尾无空格</p>
+<p>第2~M+1行逐行给出M条已经搭建好的链路三元组，每行分量之间以一个空格间隔，末尾无空格</p>
+<p>第M+2~M+K+1行逐行给出K条待更换或新建的链路三元组，每行分量之间以一个空格间隔，末尾无空格</p>
+<h3 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式：</h3>
+<p>第1行输出原局域网中广播的最小链路代价W0</p>
+<p>第2~K+1行逐行输出第i+1条待更换或新修的链路是否真的能够降低 W<sub>i</sub>，是则输出大写字母’Y’，否则输出大写字母’N’</p>
+<p>第K+2行输出考虑完所有待更换或新修的链路之后的W<sub>k</sub></p>
+<h2 id="提示2"><a class="markdownIt-Anchor" href="#提示2"></a> 提示2：</h2>
+<p>输入样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">5 5 4</span><br><span class="line"></span><br><span class="line">0 1 4</span><br><span class="line"></span><br><span class="line">0 2 3</span><br><span class="line"></span><br><span class="line">0 3 4</span><br><span class="line"></span><br><span class="line">0 4 5</span><br><span class="line"></span><br><span class="line">2 4 6</span><br><span class="line"></span><br><span class="line">2 3 2</span><br><span class="line"></span><br><span class="line">2 4 7</span><br><span class="line"></span><br><span class="line">0 4 4</span><br><span class="line"></span><br><span class="line">1 3 4</span><br></pre></td></tr></table></figure>
+<p>输出样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">16</span><br><span class="line"></span><br><span class="line">Y</span><br><span class="line"></span><br><span class="line">N</span><br><span class="line"></span><br><span class="line">Y</span><br><span class="line"></span><br><span class="line">N</span><br><span class="line"></span><br><span class="line">13</span><br></pre></td></tr></table></figure>
+<p>样例1解释：</p>
+<p>原始的W0 = 16 → 节点2和3之间新修代价为2的链路后W<sub>1</sub> = 14，因此搭建该链路，返回’Y’ → 节点2和4之间的原链路若从6更新为7，W<sub>2</sub> = W<sub>1</sub> = 14，因此放弃该链路，返回’N’ → 节点0和4之间原链路若从5更新为4，W<sub>3</sub> = 13，因此搭建该链路，返回’Y’ → 节点1和3之间新修代价为4的链路后W<sub>4</sub> = W<sub>3</sub> = 13，因此放弃该链路，返回’N’ → 最终的W<sub>4</sub> = 13</p>
+<h2 id="提示3"><a class="markdownIt-Anchor" href="#提示3"></a> 提示3：</h2>
+<p>2 ≤ N ≤ 10<sup>3</sup></p>
+<p>M ≥ N, K ≥ 1, 4(M+K) ≤ N<sup>2</sup></p>
+<p>所有链路代价w均为正整数，且任意链路代价w满足：1 ≤ w ≤ 100</p>
+<h2 id="提示4"><a class="markdownIt-Anchor" href="#提示4"></a> 提示4：</h2>
+<p>要求：算法的时间复杂度不超过O(MlogN+KN)</p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//先给几条边建个MST 再给几条边看能不能替换里面的边 输出结果</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;numeric&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 并查集数据结构</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnionFind</span> &#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; parent; <span class="comment">// 记录每个节点的父节点</span></span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; rank; <span class="comment">// 记录每个节点在树中的高度</span></span><br><span class="line">    <span class="type">int</span> count; <span class="comment">// 记录连通分量个数</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    <span class="built_in">UnionFind</span>(<span class="type">int</span> n) &#123;</span><br><span class="line">        parent.<span class="built_in">resize</span>(n);</span><br><span class="line">        rank.<span class="built_in">resize</span>(n, <span class="number">0</span>);</span><br><span class="line">        count = n;</span><br><span class="line">        <span class="built_in">iota</span>(parent.<span class="built_in">begin</span>(), parent.<span class="built_in">end</span>(), <span class="number">0</span>); <span class="comment">// 初始化每个节点为自己</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查找x所在连通分量的根节点</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">find</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (parent[x] != x) &#123;</span><br><span class="line">            parent[x] = <span class="built_in">find</span>(parent[x]); <span class="comment">// 路径压缩</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> parent[x];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 合并x和y所在连通分量</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">unite</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> rootx = <span class="built_in">find</span>(x);</span><br><span class="line">        <span class="type">int</span> rooty = <span class="built_in">find</span>(y);</span><br><span class="line">        <span class="keyword">if</span> (rootx == rooty) <span class="keyword">return</span>; <span class="comment">// 已经在同一个连通分量中</span></span><br><span class="line">        <span class="keyword">if</span> (rank[rootx] &lt; rank[rooty]) &#123; <span class="comment">// 按秩合并</span></span><br><span class="line">            <span class="built_in">swap</span>(rootx, rooty);</span><br><span class="line">        &#125;</span><br><span class="line">        parent[rooty] = rootx;</span><br><span class="line">        <span class="keyword">if</span> (rank[rootx] == rank[rooty]) rank[rootx]++;</span><br><span class="line">        count--; <span class="comment">// 连通分量减一</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断x和y是否在同一个连通分量中</span></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">connected</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">find</span>(x) == <span class="built_in">find</span>(y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义链路结构体</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Link</span> &#123;</span><br><span class="line">    <span class="type">int</span> u; <span class="comment">// 链路起点</span></span><br><span class="line">    <span class="type">int</span> v; <span class="comment">// 链路终点</span></span><br><span class="line">    <span class="type">int</span> cost; <span class="comment">// 链路代价</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    <span class="built_in">Link</span>(<span class="type">int</span> u, <span class="type">int</span> v, <span class="type">int</span> cost): <span class="built_in">u</span>(u), <span class="built_in">v</span>(v), <span class="built_in">cost</span>(cost) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 比较函数，按照代价升序排序</span></span><br><span class="line">    <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> Link&amp; other) <span class="type">const</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> cost &lt; other.cost;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义局域网结构体</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">LAN</span> &#123;</span><br><span class="line">    <span class="type">int</span> N; <span class="comment">// 主机节点数目</span></span><br><span class="line">    <span class="type">int</span> M; <span class="comment">// 已经搭建好的链路数目</span></span><br><span class="line">    vector&lt;Link&gt; links; <span class="comment">// 链路列表</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    <span class="built_in">LAN</span>(<span class="type">int</span> N, <span class="type">int</span> M): <span class="built_in">N</span>(N), <span class="built_in">M</span>(M) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 添加一条链路到列表中</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addLink</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v, <span class="type">int</span> cost)</span> </span>&#123;</span><br><span class="line">        links.<span class="built_in">emplace_back</span>(u, v, cost);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到当前局域网中的最小生成树，并返回它包含的链路列表和总代价</span></span><br><span class="line">    pair&lt;vector&lt;Link&gt;, <span class="type">int</span>&gt; <span class="built_in">findMST</span>() &#123;</span><br><span class="line">        <span class="function">UnionFind <span class="title">uf</span><span class="params">(N)</span></span>;</span><br><span class="line">        vector&lt;Link&gt; mst; <span class="comment">// 最小生成树包含的链路列表</span></span><br><span class="line">        <span class="type">int</span> totalCost = <span class="number">0</span>; <span class="comment">// 最小生成树总代价</span></span><br><span class="line"></span><br><span class="line">        <span class="built_in">sort</span>(links.<span class="built_in">begin</span>(), links.<span class="built_in">end</span>()); <span class="comment">// 对所有链路按照代价升序排序</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; link : links) &#123; <span class="comment">// 遍历所有链路</span></span><br><span class="line">            <span class="keyword">if</span> (!uf.<span class="built_in">connected</span>(link.u, link.v)) &#123; <span class="comment">// 如果不会形成环路</span></span><br><span class="line">                uf.<span class="built_in">unite</span>(link.u, link.v); <span class="comment">// 合并两个连通分量</span></span><br><span class="line">                mst.<span class="built_in">push_back</span>(link); <span class="comment">// 将该链路加入到最小生成树中</span></span><br><span class="line">                totalCost += link.cost; <span class="comment">// 更新总代价</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (uf.count == <span class="number">1</span>) <span class="keyword">break</span>; <span class="comment">// 如果已经只有一个连通分量了，就提前结束循环</span></span><br><span class="line">        &#125;</span><br><span class="line">        links = mst;</span><br><span class="line">        <span class="keyword">return</span> &#123;mst, totalCost&#125;; </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 主函数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> N, M, K; <span class="comment">// 输入N,M,K</span></span><br><span class="line"></span><br><span class="line">    cin &gt;&gt; N &gt;&gt; M &gt;&gt; K;</span><br><span class="line"></span><br><span class="line">    <span class="function">LAN <span class="title">lan</span><span class="params">(N, M)</span></span>; <span class="comment">// 创建局域网对象</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; M; i++) &#123; <span class="comment">// 输入M条已经搭建好的链路信息</span></span><br><span class="line">        <span class="type">int</span> u, v, w;</span><br><span class="line">        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;</span><br><span class="line">        lan.<span class="built_in">addLink</span>(u, v, w);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 找到当前局域网中的最小生成树</span></span><br><span class="line">    vector&lt;Link&gt; mst;</span><br><span class="line">    <span class="type">int</span> W0;</span><br><span class="line">    <span class="built_in">tie</span>(mst, W0) = lan.<span class="built_in">findMST</span>();</span><br><span class="line">    <span class="comment">// 输出原局域网中广播的最小链路代价W0</span></span><br><span class="line">    cout &lt;&lt; W0 &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> Wi = W0; <span class="comment">// 记录当前的最小链路代价</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; K; i++) &#123; <span class="comment">// 输入K条待更换或新建的链路信息</span></span><br><span class="line">        <span class="type">int</span> u, v, w;</span><br><span class="line">        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;</span><br><span class="line">        lan.<span class="built_in">addLink</span>(u, v, w);</span><br><span class="line">        <span class="type">int</span> Wi1;</span><br><span class="line">        <span class="built_in">tie</span>(mst, Wi1) = lan.<span class="built_in">findMST</span>(); <span class="comment">// 找到当前局域网中的最小生成树</span></span><br><span class="line">        <span class="keyword">if</span>(Wi1 &lt; Wi)</span><br><span class="line">        &#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">&quot;Y&quot;</span>&lt;&lt;endl;</span><br><span class="line">            Wi = Wi1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            cout&lt;&lt;<span class="string">&quot;N&quot;</span>&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; Wi &lt;&lt; endl; <span class="comment">// 输出考虑完所有待更换或新修的链路之后的Wi</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="邪恶二叉树"><a class="markdownIt-Anchor" href="#邪恶二叉树"></a> 邪恶二叉树</h1>
+<h2 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述：</h2>
+<p><strong>题目并不难，不需要课外算法。</strong></p>
+<p><strong>本题比较容易被暴力水过，即使AC了也不一定代表时间复杂度是对的。AC掉的大佬可以试一试证明自己的做法的时间复杂度确实是对的，或者构造数据卡掉自己的做法。</strong></p>
+<p>邪恶的助教有一棵n个节点的二叉树，每个节点上都有一个正整数权值，保证1号节点为根。</p>
+<p>设一个二叉树节点v是邪恶的，当且仅当v的左子树和右子树同构，且存在奇数对节点p,q满足：</p>
+<p>p∈v的左子树, q∈v的右子树</p>
+<p>p在v的左子树中的位置等于q在v的右子树中的位置</p>
+<p>p的权值与q的权值不互质</p>
+<p>对于如下的二叉树，编号为1的节点是邪恶的，因为节点6和节点7的权值不互质，且节点6和节点7的位置对应。</p>
+<p><img src="content_graph__2_.png" alt="" /></p>
+<p>对于下面的两棵二叉树，节点1都不是邪恶的。第一张节点1的两个子树不同构，第二张图存在两对符合条件的点对（23和67）。</p>
+<p><img src="content_graph__3_.png" alt="" /><br />
+<img src="content_graph__5_.png" alt="" /></p>
+<p>问二叉树中有多少个节点是邪恶的。</p>
+<h2 id="输入"><a class="markdownIt-Anchor" href="#输入"></a> 输入</h2>
+<p>多组数据。</p>
+<p>第一行一个正整数T，代表数据组数。</p>
+<p>对于每组数据：</p>
+<p>第一行一个正整数n，代表原二叉树的节点数量。</p>
+<p>然后n行，第i行3个正整数leftson<sub>i</sub>​, rightson<sub>i</sub>​, value<sub>i</sub>​，代表i号节点的左儿子，右儿子和权值，如果不存在左/右儿子，则用0表示。</p>
+<h2 id="输出"><a class="markdownIt-Anchor" href="#输出"></a> 输出</h2>
+<p>T行，每行一个非负整数，代表T个答案。</p>
+<h2 id="样例"><a class="markdownIt-Anchor" href="#样例"></a> 样例</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">input:</span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">7</span><br><span class="line">2 3 1</span><br><span class="line">0 4 1</span><br><span class="line">0 5 1</span><br><span class="line">6 0 1</span><br><span class="line">7 0 1</span><br><span class="line">0 0 4</span><br><span class="line">0 0 6</span><br><span class="line"></span><br><span class="line">7</span><br><span class="line">2 3 2</span><br><span class="line">4 5 3</span><br><span class="line">6 7 6</span><br><span class="line">0 0 4</span><br><span class="line">0 0 2</span><br><span class="line">0 0 8</span><br><span class="line">0 0 6</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<p>解释：第一组数据，节点1是邪恶的；第二组数据，节点1,2,3是邪恶的。</p>
+<h2 id="数据范围"><a class="markdownIt-Anchor" href="#数据范围"></a> 数据范围</h2>
+<p>1≤value<sub>i</sub>​≤10<sup>9</sup></p>
+<p>对于30%的数据:</p>
+<p>1≤∑n≤1000</p>
+<p>对于100%的数据：</p>
+<p>1≤∑n≤10<sup>5</sup></p>
+<h2 id="补充说明"><a class="markdownIt-Anchor" href="#补充说明"></a> 补充说明</h2>
+<p>a,b互质当且仅当gcd(a,b)=1，可以用辗转相除法计算两个数的gcd，时间复杂度为Θ(log(min(a,b)))。</p>
+<p>code:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">gcd</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b==<span class="number">0</span>)<span class="keyword">return</span> a;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">gcd</span>(b,a%b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有兴趣的同学可以思考：若去掉左右子树必须同构的条件，其他条件不变，应该怎么做？</p>
+<h1 id="营救路线"><a class="markdownIt-Anchor" href="#营救路线"></a> 营救路线</h1>
+<h2 id="题目描述-3"><a class="markdownIt-Anchor" href="#题目描述-3"></a> 题目描述：</h2>
+<p>阿尼亚又双叒叕因为偷偷用了福杰的电报机发送摩斯电码暴露位置被抓起来了！<br />
+福杰为了救回阿尼亚，需要知道有多少种营救路线。<br />
+为了简化，每个地方都可以看作一个结点，两个地方之间的道路可以看作一条有向边，福杰在结点1，而阿尼亚在结点n。<br />
+福杰想知道结点1到达结点n到底有多少条不同的路线？（若两条路线中边不完全相同则认为这两条路线不同）<br />
+营救阿尼亚迫在眉睫，快来帮帮福杰救出可爱的阿尼亚吧！</p>
+<p>阿尼亚：哇库哇库</p>
+<h2 id="输入格式-2"><a class="markdownIt-Anchor" href="#输入格式-2"></a> 输入格式</h2>
+<p>第一行两个整数n，m，分别表示点数和边数。<br />
+接下来m行，每行两个整数u，v，表示结点u和结点v中有一条有向边（u指向v）。</p>
+<p>输出格式<br />
+一个整数，表示营救路线的种数，对998244353取模。<br />
+如果有无限多条，则输出-1。</p>
+<p><strong>样例输入1</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">7 7</span><br><span class="line">1 3</span><br><span class="line">1 4</span><br><span class="line">3 7</span><br><span class="line">4 7</span><br><span class="line">5 6</span><br><span class="line">6 5</span><br><span class="line">3 4</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出1</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure>
+<p><strong>样例输入2</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">7 8</span><br><span class="line">1 3</span><br><span class="line">1 4</span><br><span class="line">3 7</span><br><span class="line">4 7</span><br><span class="line">5 6</span><br><span class="line">6 5</span><br><span class="line">3 4</span><br><span class="line">4 3</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出2</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-1</span><br></pre></td></tr></table></figure>
+<p>数据范围<br />
+1 ≤ n, m ≤ 10<sup>6</sup><br />
+1 ≤ u, v ≤ n</p>
+<h2 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h2>
+<p>可能有重边<br />
+仔细思考结果为无限多条的条件</p>
+]]></content>
+      <categories>
+        <category>作业</category>
+      </categories>
+      <tags>
+        <tag>并查集</tag>
+        <tag>最小生成树</tag>
+        <tag>unfinished</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OJ5</title>
+    <url>/2023/06/19/OJ5/</url>
+    <content><![CDATA[<p>动态规划一，还行</p>
+<span id="more"></span>
+<h1 id="扑克游戏i"><a class="markdownIt-Anchor" href="#扑克游戏i"></a> 扑克游戏I</h1>
+<p>一个月黑风高的夜，有两个高智商犯罪集团，分别称X党和Y党，合伙抢劫了一家赌场，但是在分赃时却出现了分歧，X党老大提议利用赌场里随处可见的扑克牌，和Y党老大玩一局游戏，以决定分赃的比例。</p>
+<h2 id="规则"><a class="markdownIt-Anchor" href="#规则"></a> 规则</h2>
+<p>游戏规则如下：</p>
+<ol>
+<li>
+<p>将赌场里的除了大小王的扑克牌收集起来，随机打乱，明牌摊开在桌子上，排成一行牌组</p>
+</li>
+<li>
+<p>X党老大先手，每轮两党老大轮流从牌组的左端或右端连续抽取任意非零数量的牌，直到牌全部抽完为止</p>
+</li>
+<li>
+<p>最后计算X党老大和Y党老大所抽牌的总分之差D，若D大于0，则X党多拿|D|万元；若D小于0，则Y党多拿|D|万元；若D等于0，则两党各分一半</p>
+</li>
+<li>
+<p>具体的计分规则如下：</p>
+<ul>
+<li>
+<p>红桃(记作’r’)和方块牌(记作’s‘)得分为正，黑桃(记作’b’)和梅花牌(记作’p’)得分为负</p>
+</li>
+<li>
+<p>对于3~10，牌所得分的绝对值等于其牌面的大小</p>
+</li>
+<li>
+<p>对于JQKA2，牌所得分的绝对值依次为11~15</p>
+</li>
+</ul>
+</li>
+<li>
+<p>假设两党老大都足够聪明</p>
+</li>
+</ol>
+<h2 id="格式"><a class="markdownIt-Anchor" href="#格式"></a> 格式</h2>
+<p>输入格式：</p>
+<p>第一行为牌组的大小N</p>
+<p>第二行为牌面字符串nstr，其中nstr[i]表示从左往右数的第i+1张牌的牌面字符，10用’0’表示 (0 ≤ i ≤ N-1)</p>
+<p>第三行为花色字符串cstr，其中cstr[i]表示从左往右数的第i+1张牌的花色字符 (0 ≤ i ≤ N-1)</p>
+<p>输出格式：</p>
+<p>一个整数，即X、Y党老大所抽牌的总分之差D</p>
+<h2 id="样例"><a class="markdownIt-Anchor" href="#样例"></a> 样例</h2>
+<p>输入样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4</span><br><span class="line"></span><br><span class="line">JQ3A</span><br><span class="line"></span><br><span class="line">rbsp</span><br></pre></td></tr></table></figure>
+<p>输出样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">16</span><br></pre></td></tr></table></figure>
+<p>样例1解释：</p>
+<p>每张牌的得分依次为11 -12 3 -14，X党老大先手会从左端选3张，得分11-12+3 = 2，Y党老大后手只能选最后1张，得分-14，D = 2 - (-14) = 16；</p>
+<p>如果X党老大只从左端选1张，得分虽然为11更高，但是Y党老大会选择2、3张，将-14留给X党老大；故最终X党老大得分11-14 = -3，Y党老大得分-12+3 = -9，D = -3 - (-9) = 6，虽然X党也能赢但并非最优方案；</p>
+<h2 id="数据范围"><a class="markdownIt-Anchor" href="#数据范围"></a> 数据范围</h2>
+<p>$ 1 ≤ N ≤ 10^4 $</p>
+<p>$ |D| ≤ 10^6 $</p>
+<p>算法时间复杂度不超过$ O(N^2) $</p>
+<h2 id="代码"><a class="markdownIt-Anchor" href="#代码"></a> 代码</h2>
+<p><strong>30%</strong>,需要优化，但是我想不出来了。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">calculateScore</span><span class="params">(<span class="type">char</span> card, <span class="type">char</span> suit)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> x=<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">    <span class="keyword">if</span>(suit == <span class="string">&#x27;b&#x27;</span>||suit == <span class="string">&#x27;p&#x27;</span>) x=<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(card&gt;=<span class="string">&#x27;3&#x27;</span>&amp;&amp;card&lt;=<span class="string">&#x27;9&#x27;</span>)y=card-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    <span class="keyword">if</span>(card == <span class="string">&#x27;0&#x27;</span> )y=<span class="number">10</span>;</span><br><span class="line">    <span class="keyword">if</span>(card == <span class="string">&#x27;J&#x27;</span> )y=<span class="number">11</span>;</span><br><span class="line">    <span class="keyword">if</span>(card == <span class="string">&#x27;Q&#x27;</span> )y=<span class="number">12</span>;</span><br><span class="line">    <span class="keyword">if</span>(card == <span class="string">&#x27;K&#x27;</span> )y=<span class="number">13</span>;</span><br><span class="line">    <span class="keyword">if</span>(card == <span class="string">&#x27;A&#x27;</span> )y=<span class="number">14</span>;</span><br><span class="line">    <span class="keyword">if</span>(card == <span class="string">&#x27;2&#x27;</span> )y=<span class="number">15</span>;</span><br><span class="line">    <span class="keyword">return</span> x*y;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> dp[<span class="number">10005</span>][<span class="number">10005</span>];</span><br><span class="line"><span class="type">int</span> a[<span class="number">10005</span>],S[<span class="number">10005</span>];</span><br><span class="line"><span class="type">char</span> nstr[<span class="number">10005</span>],cstr[<span class="number">10005</span>];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sum</span><span class="params">(<span class="type">int</span> l,<span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> S[r]-S[l<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;nstr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;cstr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i]=<span class="built_in">calculateScore</span>(nstr[i],cstr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    S[<span class="number">0</span>]=a[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        S[i]=S[i<span class="number">-1</span>]+a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        dp[i][i]=a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> len=<span class="number">2</span>;len&lt;=n;len++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n-len+<span class="number">1</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j=i+len<span class="number">-1</span>;</span><br><span class="line">            <span class="type">int</span> minn=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=i;k&lt;=j;k++)</span><br><span class="line">            &#123;</span><br><span class="line">                minn=<span class="built_in">min</span>(minn,dp[i][k]);</span><br><span class="line">                minn=<span class="built_in">min</span>(minn,dp[k][j]);</span><br><span class="line">            &#125;</span><br><span class="line">            dp[i][j]=<span class="built_in">sum</span>(i,j)-minn;</span><br><span class="line">        &#125;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;<span class="number">2</span>*dp[<span class="number">1</span>][n]-S[n]&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="柴郡的天雷计划"><a class="markdownIt-Anchor" href="#柴郡的天雷计划"></a> 柴郡的天雷计划</h1>
+<p>柴郡为了庆祝周年庆，要帮指挥官偷别人的天雷图纸！<br />
+一共有n个地方的天雷图纸可以偷，第i个地方需要t[i]单位的石油，能偷到x[i]张天雷图纸，每个地方只能偷一次。<br />
+由于石油有限，只有m单位的石油，柴郡想知道用这些石油最多能偷到多少张天雷图纸？</p>
+<h2 id="输入输出"><a class="markdownIt-Anchor" href="#输入输出"></a> 输入输出</h2>
+<p>输入格式<br />
+第一行两个整数，n和m，如题目所述。<br />
+接下来n行，每行两个整数t[i]和x[i]，如题目所述。</p>
+<p>输出格式<br />
+一个整数，表示最多能偷取的天雷图纸。</p>
+<h2 id="样例-2"><a class="markdownIt-Anchor" href="#样例-2"></a> 样例</h2>
+<p>样例输入</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">3 70</span><br><span class="line">71 100</span><br><span class="line">69 1</span><br><span class="line">1 2</span><br></pre></td></tr></table></figure>
+<p>样例输出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure>
+<h2 id="数据范围-2"><a class="markdownIt-Anchor" href="#数据范围-2"></a> 数据范围</h2>
+<p>$ 1 &lt;= n，m &lt;= 2000 $</p>
+<p>$ 1 &lt;= t[i] &lt;= m $</p>
+<p>$ 1 &lt;= x[i] &lt;= 100 $</p>
+<h2 id="代码-2"><a class="markdownIt-Anchor" href="#代码-2"></a> 代码</h2>
+<p>简单的背包问题。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n,m;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">v</span><span class="params">(n)</span>,<span class="title">w</span><span class="params">(n)</span></span>;<span class="comment">//v:体积，w:价值</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        cin&gt;&gt;v[i]&gt;&gt;w[i];</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(m+<span class="number">1</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=m;j&gt;=v[i];j--)</span><br><span class="line">            dp[j]=<span class="built_in">max</span>(dp[j],dp[j-v[i]]+w[i]);</span><br><span class="line">    cout&lt;&lt;dp[m]&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>作业</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OJ6</title>
+    <url>/2023/06/19/OJ6/</url>
+    <content><![CDATA[<p>动态规划2，算了算平时分没必要做了，助教给的答案也看不懂，反正期末了，只把题目挂在这里。</p>
+<span id="more"></span>
+<h1 id="悸动战士的dd"><a class="markdownIt-Anchor" href="#悸动战士的dd"></a> 悸动战士的DD</h1>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h2>
+<p>又一届SIF开始了，悸动战士高咲侑终于摆脱了严防死守的步女士，又可以开始DD了！<br />
+在SIF中，一共有n个位置可以观赏学园偶像的表演，有m场演出可供观看。<br />
+第i场演出演出时间为t[i]，演出位置为a[i]，获取最大的悸动值为b[i]，如果在位置x观看演出，则会获得$ b[i]-|a[i]-x| $的悸动值（可以为负）。<br />
+侑每个单位时间能移动不大于d单位的距离，同时不能走到这n个位置以外，初始可以在任意位置。<br />
+她想知道能获取最大的悸动值是多少，你能帮帮她吗？</p>
+<h2 id="格式"><a class="markdownIt-Anchor" href="#格式"></a> 格式</h2>
+<p>输入格式<br />
+第一行三个整数n，m，d，如题目所述。<br />
+接下来m行，每行三个整数a[i]，b[i]，t[i]，如题目所述。</p>
+<p>输出格式<br />
+一个整数，表示获取的最大悸动值。</p>
+<h2 id="样例"><a class="markdownIt-Anchor" href="#样例"></a> 样例</h2>
+<p>样例输入1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">50 3 1</span><br><span class="line">49 1 1</span><br><span class="line">26 1 4</span><br><span class="line">6 1 10</span><br></pre></td></tr></table></figure>
+<p>样例输出1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-31</span><br></pre></td></tr></table></figure>
+<p>样例输入2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">10 2 1</span><br><span class="line">1 1000 4</span><br><span class="line">9 1000 4</span><br></pre></td></tr></table></figure>
+<p>样例输出2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1992</span><br></pre></td></tr></table></figure>
+<h2 id="数据范围"><a class="markdownIt-Anchor" href="#数据范围"></a> 数据范围</h2>
+<p>90%的数据，1 &lt;= n，m &lt;= 100，0&lt;= d &lt;= n，1 &lt;= a[i] &lt;= n，1 &lt;= b[i]，t[i] &lt;= 10^9<br />
+剩下10%的数据，n=m=2000，0 &lt;= d &lt;= n，1 &lt;= a[i] &lt;= n，1 &lt;= b[i]，t[i] &lt;= 10^9<br />
+保证t[i]单调不减</p>
+<h2 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h2>
+<p>你能先想出一个O(n^2m)的dp方程吗？<br />
+试着化简它，把求解max的无关项放到max之外。<br />
+你能试着用数据结构来优化求解这个化简后的dp方程吗，让它降到O(nm)？<br />
+注意max的求解区间有一定范围。</p>
+<h1 id="扑克游戏ii"><a class="markdownIt-Anchor" href="#扑克游戏ii"></a> 扑克游戏II</h1>
+<h2 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述</h2>
+<p>上局游戏X党老大最终获胜，赢走了近7成赃款，Y党老大表示不服，认为该游戏明牌更有利于先手（你认为他说的对吗），因此提出要重新玩一局更加公平的游戏，且这次双方所有手下都要参与，X党老大兴致正高，于是欣然同意。</p>
+<p>游戏规则如下：</p>
+<ol>
+<li>
+<p>两党分别收集上局游戏没使用的大小王牌，按照小王在左、大王在右的顺序，依次不明牌地摊开在桌子上，排成两行牌组，并在自己牌组的最后一张小王（即该小王右边或没有牌，或是张大王）的正面打上标记</p>
+</li>
+<li>
+<p>游戏开始前，两党均仅知道对方牌组总数和手下总人数，而不知道对方大、小王牌的具体数量，且小王数量非零，大王数量可能为零</p>
+</li>
+<li>
+<p>每轮两党分别派出自己的一名手下，在对方牌组中同时摸一张并亮牌，摸牌情况如下：</p>
+</li>
+</ol>
+<p>1）某党手下若摸出大王，则该名手下退出游戏，不得再参与后续摸牌，下轮更换一名未曾摸过牌的手下；</p>
+<p>2）某党手下若摸出不带标记的小王，则他继续参与下轮摸牌；</p>
+<p>3）某党手下若摸出带标记的小王，且对方手下没有摸出，则游戏结束，该党赢得所有赃款，反义亦然；</p>
+<p>4）若两党手下某轮同时摸出带标记的小王，则游戏同样结束，两党平分赃款；</p>
+<p>5）若某轮某党没有能摸牌的手下，但是对方仍有，则直接判对方获胜，赢得所有赃款，反之亦然；</p>
+<p>6）若某轮两党同时没有能摸牌的手下，则游戏同样结束，两党平分赃款；</p>
+<ol start="4">
+<li>假设两党所有手下都足够聪明，且手气都足够不好（即在不可能不摸中之前，都不会幸运地摸中）</li>
+</ol>
+<h2 id="格式-2"><a class="markdownIt-Anchor" href="#格式-2"></a> 格式</h2>
+<p>输入格式：</p>
+<p>第一行依次为X党牌组的大小N<sub>x</sub>和手下数量K<sub>x</sub>，以一个空格间隔</p>
+<p>第二行依次为Y党牌组的大小N<sub>y</sub>和手下数量K<sub>y</sub>，以一个空格间隔</p>
+<p>输出格式：</p>
+<p>一个正整数，即游戏结束时的轮数T</p>
+<h2 id="样例-2"><a class="markdownIt-Anchor" href="#样例-2"></a> 样例</h2>
+<p>输入样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">5 2</span><br><span class="line"></span><br><span class="line">7 1</span><br></pre></td></tr></table></figure>
+<p>输出样例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4</span><br></pre></td></tr></table></figure>
+<p>样例1解释：</p>
+<p>Y党只有1个手下，稍有不慎抽中大王就直接输掉游戏，故该手下只会从最左边开始向右不断摸牌，直到摸到带标记小王为止；由于手气足够不好，因此他要摸5轮才能摸到；</p>
+<p>而X党有2个手下，可能的一种最好做法是结合二分查找和线性查找：先让一个手下摸第4张，如果是大王，则剩下那个手下只能从第1张向右摸到第3张才保证能摸到，需要1+3=4轮；如果第4张是不带标记小王，则他继续摸第6张，如果是大王，则另一个手下摸第5张就一定能摸到带标记小王，需要1+1+1=3轮，如果第6张仍是不带标记小王，则再摸第7张就一定能摸到带标记小王，也需要3轮；由于手气足够不好，因此X党需要摸4轮；</p>
+<p>综上，Y党需要摸5轮，而X党在第4轮就能获胜，因此游戏结束时，T = 4</p>
+<h2 id="范围"><a class="markdownIt-Anchor" href="#范围"></a> 范围</h2>
+<p>1 &lt;= Kx,Ky &lt;= 20</p>
+<p>1 &lt;= Nx,Ny &lt;= 106</p>
+<p>算法的时间复杂度不超过O(KNlogN)</p>
+<h2 id="拓展"><a class="markdownIt-Anchor" href="#拓展"></a> 拓展</h2>
+<p>换个角度思考，给你K个手下，限制游戏最多进行T轮，你最多能保证从多少张牌中找到带标记小王？基于这个角度，你能设计一个时间复杂度为O(KN)的动态规划算法吗？如果能，实际上其状态转移方程就可直接通过母函数法求得通项公式，进而基于二分查找，本题可设计一个O(KlogN)的数学算法，感兴趣的同学可以自行尝试~</p>
+]]></content>
+      <categories>
+        <category>作业</category>
+      </categories>
+      <tags>
+        <tag>unfinished</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/03/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2>
+<h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Tex-1</title>
+    <url>/2023/05/20/Tex-1/</url>
+    <content><![CDATA[<p>这里记录一些在使用LaTex时遇到的小问题和解决方案。</p>
+<span id="more"></span>
+<h2 id="base"><a class="markdownIt-Anchor" href="#base"></a> base</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[UTF8]&#123;ctexart&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;带符号标题&#125;</span><br><span class="line"><span class="keyword">\section</span>*&#123;无符号标题&#125;</span><br><span class="line"><span class="keyword">\subsection</span>&#123;子段&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="标题"><a class="markdownIt-Anchor" href="#标题"></a> 标题</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line"><span class="keyword">\title</span>&#123;&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;<span class="keyword">\today</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\maketitle</span></span><br></pre></td></tr></table></figure>
+<h2 id="插入图片"><a class="markdownIt-Anchor" href="#插入图片"></a> 插入图片</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;graphicx&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[htbp]</span><br><span class="line">    <span class="keyword">\centering</span></span><br><span class="line">    <span class="keyword">\includegraphics</span>[width=0.8<span class="keyword">\textwidth</span>]&#123;img/Exp.png&#125;</span><br><span class="line">    <span class="keyword">\caption</span>&#123;标题&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;figure&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="插入matlab代码"><a class="markdownIt-Anchor" href="#插入matlab代码"></a> 插入matlab代码</h2>
+<figure class="highlight tex"><table><tr><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;listings,matlab-prettifier&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\lstset</span>&#123;</span><br><span class="line">        style=Matlab-editor,</span><br><span class="line">        numbers      = left,</span><br><span class="line">        frame        = single,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\lstinputlisting</span>[language=matlab]&#123;code/Exp.m&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;lstlisting&#125;[language=matlab]</span><br><span class="line">xxxxx</span><br><span class="line"><span class="keyword">\end</span>&#123;lstlisting&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>CheatNote</category>
+      </categories>
+      <tags>
+        <tag>LaTex</tag>
+      </tags>
+  </entry>
+</search>
